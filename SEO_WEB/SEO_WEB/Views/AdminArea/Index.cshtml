@@ -1,0 +1,164 @@
+﻿@model List<SEO_WEB.Models.Area>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var i = 1;
+}
+
+@section header{
+    Quản lý khu vực
+}
+
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Mô tả</th>
+            <th>Alias</th>
+            <th>Modify</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td><span class="text-output">@item.DisplayName</span><input value="@item.DisplayName" class="text-input hidden txtDisplayName" /></td>
+                <td><span class="text-output">@item.Description</span><textarea class="text-input hidden txtDescription"> @item.Description</textarea></td>
+                <td><span class="text-output">@item.Alias</span><input value="@item.Alias" class="text-input hidden txtAlias" /></td>
+                <td>
+                    <button class="btn-update btn-primary" data-id="@item.ID">Chỉnh sửa</button>
+                    <button class="btn-delete btn-danger" data-id="@item.ID">Xóa</button>
+                </td>
+            </tr>
+        }
+
+        <tr class="hidden" id="add-tr">
+            <td></td>
+            <td><input id="txtDisplayName" placeholder="Tên khu vực" /></td>
+            <td><textarea id="txtDescription" rows="5" placeholder="Mô tả"></textarea></td>
+            <td><input id="txtAlias" placeholder="Alias" /></td>
+            <td>
+                <button class="btn-submit-create">Thêm</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button class="btn btn-success btn-add-tr">Thêm khu vực</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    const obj = {
+        init: function () {
+            this.showRow();
+            this.create();
+            this.delete();
+            this.editOrUpdate();
+        },
+        showRow: function () {
+            let btn = document.querySelector('.btn-add-tr');
+            let tr = document.querySelector('#add-tr');
+
+            btn.addEventListener('click', function () {
+                tr.classList.remove('hidden');
+            })
+        },
+        create: function () {
+            let btn = document.querySelector(".btn-submit-create");
+            let displayName = $("#txtDisplayName");
+            let description = $("#txtDescription");
+            let alias = $("#txtAlias");
+
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+
+
+                if (!displayName.val() || !description.val() || !alias.val()) {
+                    alert("Dữ liệu không hợp lệ");
+                }
+                else {
+                    $.ajax({
+                        url: "/AdminArea/Create",
+                        data: { displayName: displayName.val(), description: description.val(), alias: alias.val() },
+                        type: "POST",
+                        success: function (response) {
+
+                            if (response == 1) {
+                                window.location.reload();
+                            } else {
+                                alert("Lỗi server");
+                            }
+                        }
+                    })
+                }
+            })
+        },
+        delete: function () {
+            $("body").on("click", ".btn-delete", function () {
+                let btn = $(this);
+                let parent = btn.parents('tr');
+                let id = $(this).data('id');
+                let check = confirm("Bạn có muốn xóa?");
+
+                if (check) {
+                    $.ajax({
+                        url: "/AdminArea/Delete",
+                        data: { id: id },
+                        type: "POST",
+                        success: function (response) {
+
+                            if (response == 1) {
+                                parent.remove();
+                                alert("Xóa thành công");
+                            } else {
+                                alert("Lỗi server");
+                            }
+                        }
+                    })
+                }
+
+            })
+        },
+        editOrUpdate: function () {
+            $('.btn-update').on('click', function () {
+                let btn = $(this);
+                let parent = btn.parents('tr');
+                let childOut = parent.find('.text-output');
+                let childIn = parent.find('.text-input');
+                let text = btn.text();
+                let id = btn.data('id');
+                let displayName = parent.find('.txtDisplayName').val();
+                let description = parent.find('.txtDescription').val();
+                let alias = parent.find('.txtAlias').val();
+
+                if (text == 'Chỉnh sửa') {
+                    btn.text("Cập nhật");
+                    childOut.addClass('hidden');
+                    childIn.removeClass('hidden');
+
+                } else { 
+                    $.ajax({
+                        url: "/AdminArea/Update",
+                        data: { id : id, displayName: displayName, description: description, alias: alias },
+                        type: "POST",
+                        success: function (response) {
+
+                            if (response == 1) {
+                                window.location.reload();
+                            } else {
+                                alert("Lỗi server");
+                            }
+                        }
+                    })  
+                }
+            });
+        }
+
+    }
+
+    obj.init();
+</script>

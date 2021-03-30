@@ -1,0 +1,12 @@
+﻿@{
+    var user = Session[SEO_WEB.Common.Constants.SESSION] as SEO_WEB.Models.User;
+}
+<div class="header-main">
+    <a href="index.html">
+        <h1>Xin chào: @user.DisplayName</h1>
+    </a>
+    <br />
+    <a href="/AdminAccount/Logout" style="color: red;">Đăng xuất</a>
+    
+    <div class="clearfix"> </div>
+</div>
