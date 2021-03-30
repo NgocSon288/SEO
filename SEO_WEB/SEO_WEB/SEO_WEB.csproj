@@ -130,6 +130,7 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Controllers\AdminAccountController.cs" />
     <Compile Include="Controllers\AdminBaseController.cs" />
+    <Compile Include="Controllers\AdminCityController.cs" />
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminAreaController.cs" />
     <Compile Include="Global.asax.cs">
@@ -142,6 +143,14 @@
     <Compile Include="Migrations\202103300512589_update_isDelete_prop.cs" />
     <Compile Include="Migrations\202103300512589_update_isDelete_prop.designer.cs">
       <DependentUpon>202103300512589_update_isDelete_prop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103301305199_update_model.cs" />
+    <Compile Include="Migrations\202103301305199_update_model.designer.cs">
+      <DependentUpon>202103301305199_update_model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103301316174_update_foreign_key_entity.cs" />
+    <Compile Include="Migrations\202103301316174_update_foreign_key_entity.designer.cs">
+      <DependentUpon>202103301316174_update_foreign_key_entity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Area.cs" />
@@ -157,6 +166,9 @@
   <ItemGroup>
     <Content Include="Assets\Admin\css\bootstrap.css" />
     <Content Include="Assets\Admin\css\style.css" />
+    <Content Include="Assets\Admin\images\city\film15218.jpg" />
+    <Content Include="Assets\Admin\images\city\film22690.jpg" />
+    <Content Include="Assets\Admin\images\city\film39034.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -189,6 +201,9 @@
     <Content Include="Views\Shared\_AdminHeader.cshtml" />
     <Content Include="Views\AdminAccount\Login.cshtml" />
     <Content Include="Views\AdminArea\Index.cshtml" />
+    <Content Include="Views\AdminCity\Index.cshtml" />
+    <Content Include="Views\AdminCity\Create.cshtml" />
+    <Content Include="Views\AdminCity\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202103291527581_initialize_db.resx">
@@ -196,6 +211,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103300512589_update_isDelete_prop.resx">
       <DependentUpon>202103300512589_update_isDelete_prop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103301305199_update_model.resx">
+      <DependentUpon>202103301305199_update_model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103301316174_update_foreign_key_entity.resx">
+      <DependentUpon>202103301316174_update_foreign_key_entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

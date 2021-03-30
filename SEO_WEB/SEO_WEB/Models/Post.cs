@@ -40,6 +40,12 @@ namespace SEO_WEB.Models
         public bool IsDeleted { get; set; }
 
 
+        [ForeignKey("City")]
+        public int CityID { get; set; }
+
+        [ForeignKey("Category")]
+        public int CategoryID { get; set; }
+
         public City City { get; set; }
 
         public Category Category { get; set; }

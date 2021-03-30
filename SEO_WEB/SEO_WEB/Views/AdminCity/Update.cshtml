@@ -1,0 +1,74 @@
+﻿@model SEO_WEB.Models.City
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+@section header{
+    Cập nhật tỉnh thành phố
+}
+
+@using (Html.BeginForm("Update", "AdminCity", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <label>Tên tỉnh/thành phố</label>
+    <br />
+    @Html.TextBoxFor(Model => Model.DisplayName, new { @class = "form-control" });
+    <br />
+
+    <label>Mô tả</label>
+    <br />
+    @Html.TextAreaFor(Model => Model.Description, new { @class = "form-control" });
+    <br />
+
+    <label>Khu vực</label>
+    <br />
+    @Html.DropDownListFor(Model => Model.AreaID, (IEnumerable<SelectListItem>)ViewBag.Area, new { @class = "form-control" });
+    <br />
+
+
+    <label>Alias</label>
+    <br />
+    @Html.TextBoxFor(Model => Model.Alias);
+    <br />
+    <br />
+    <div>
+        <input type="file" name="ImageUpload" id="img-input" />
+
+        <img src="~/Assets/Admin/images/city/@Model.Avatar" width="200" height="200" id="preImage" />
+    </div>
+    <br />
+
+    <label>Alt hình ảnh</label>
+    <br />
+    @Html.TextBoxFor(Model => Model.Alt, new { @class = "form-control" });
+    <br />
+
+
+    <input type="submit" value="Thêm" />
+}
+
+<script>
+    const obj = {
+        init: function () {
+            this.updateImage();
+        },
+        updateImage: function () {
+            $("#img-input").on("change", function () {
+                let ImageUpload = document.getElementById('img-input');
+                let preImage = document.getElementById('preImage')
+
+                if (ImageUpload.files && ImageUpload.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        preImage.src = e.target.result;
+                    }
+                    reader.readAsDataURL(ImageUpload.files[0]);
+                }
+            })
+        }
+    }
+
+    obj.init();
+</script>

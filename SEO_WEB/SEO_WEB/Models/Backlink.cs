@@ -17,6 +17,8 @@ namespace SEO_WEB.Models
 
         public string Link { get; set; }
 
+        [ForeignKey("Post")]
+        public int PostID { get; set; }
 
         public Post Post { get; set; }
     }

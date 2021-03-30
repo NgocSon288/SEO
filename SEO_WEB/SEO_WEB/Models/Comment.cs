@@ -30,6 +30,13 @@ namespace SEO_WEB.Models
         public bool IsDeleted { get; set; }
 
 
+
+        [ForeignKey("Post")]
+        public int PostID { get; set; }
+         
+        [ForeignKey("User")]
+        public int UserID { get; set; }
+
         public Post Post { get; set; }
 
         public User User { get; set; }
