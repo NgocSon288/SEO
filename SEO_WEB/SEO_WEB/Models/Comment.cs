@@ -13,10 +13,13 @@ namespace SEO_WEB.Models
         [Key]
         public int ID { get; set; }
 
+        [Required]
         public string Reason { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
+        [Required]
         public int Rating { get; set; }
 
         public DateTime CreatedTime { get; set; }

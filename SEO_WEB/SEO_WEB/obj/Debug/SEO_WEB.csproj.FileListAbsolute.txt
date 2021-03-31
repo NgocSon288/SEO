@@ -86,3 +86,8 @@ C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ á
 C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ án\SEO\SEO_WEB\SEO_WEB\obj\Debug\SEO_WEB.Migrations.update_isDelete_prop.resources
 C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ án\SEO\SEO_WEB\SEO_WEB\obj\Debug\SEO_WEB.Migrations.update_model.resources
 C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ án\SEO\SEO_WEB\SEO_WEB\obj\Debug\SEO_WEB.Migrations.update_foreign_key_entity.resources
+C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ án\SEO\SEO_WEB\SEO_WEB\obj\Debug\SEO_WEB.Migrations.update_attribute_entity.resources
+C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ án\SEO\SEO_WEB\SEO_WEB\obj\Debug\SEO_WEB.Migrations.update_meta_entity.resources
+C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ án\SEO\SEO_WEB\SEO_WEB\obj\Debug\SEO_WEB.Migrations.deletemetaproperty.resources
+C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ án\SEO\SEO_WEB\SEO_WEB\obj\Debug\SEO_WEB.Migrations.update_meta.resources
+C:\Desktop\HK2-năm 3\Tối ưu hóa công cụ tìm kiếm - IE204.L21\Đồ án\SEO\SEO_WEB\SEO_WEB\obj\Debug\SEO_WEB.Migrations.update_meta_v11.resources

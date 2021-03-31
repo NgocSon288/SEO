@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section header{
+    Quản lý bài viết
+}
+
+<div id="result-data">
+
+</div>
+
+
+<script>
+    var obj = {
+        init: function () { 
+            this.load(); 
+            this.clickPaginnation();
+            this.clickSearch();
+            this.clickCity();
+            this.clickCategory();
+            this.clickReset();
+            this.deleteKeyWord();
+            this.deletePost();
+
+        }, 
+        load: function () {
+            obj.GetPostAjax();
+        },
+        deletePost: function () {
+            $("body").on("click", ".btn-delete", function () {
+                var isDelete = $(this).data("isdelete");
+                var id = $(this).data("id");
+                var tr = $(this);
+
+                $(this).data("isdelete", !isDelete);
+
+                console.log(id, isDelete);
+
+                $.ajax({
+                    url: "/AdminPost/Delete",
+                    data: { id: id, isDelete: !isDelete },
+                    type: "POST",
+                    success: function (response) {
+                        if (response == "1") {
+                            if (!isDelete) {
+                                tr.parents("tr").addClass("tr-delete");
+                            } else {
+                                tr.parents("tr").removeClass("tr-delete");
+                            }
+                        }
+                    }
+                })
+
+            })
+        },
+        clickPaginnation: function () {
+            $("body").on("click", ".btn-pagin", function () {
+                var key = $(this).data("key");
+                var page = $(this).data("page");
+                var pageSize = $(this).data("pagesize");
+                var cityID = $(this).data("supplierid");
+                var categoryID = $(this).data("categoryid");
+
+                obj.GetPostAjax(key, page, pageSize, cityID, categoryID);
+            })
+        },
+        clickSearch: function () {
+            $("body").on("click", ".btn-search", function () {
+                var key = $(".textbox-search").val();
+                var pageSize = $(this).data("pagesize");
+                var cityID = $(this).data("cityid");
+                var categoryID = $(this).data("categoryid");
+                console.log('key: ' + key, 'pageSize: ' + pageSize, 'cityID: ' + cityID, 'categoryID: ' + categoryID);
+                obj.GetPostAjax(key, 1, pageSize, cityID, categoryID);
+
+            })
+        },
+        clickCity: function () {
+            $("body").on("change", ".select-city", function () {
+                var cityID = $(this).val();
+                var key = $(this).data("key");
+                var pageSize = $(this).data("pagesize");
+                var categoryID = $(this).data("categoryid");
+
+                console.log('key: ' + key, 'pageSize: ' + pageSize, 'cityID: ' + cityID, 'categoryID: ' + categoryID);
+                obj.GetPostAjax(key, 1, pageSize, cityID, categoryID);
+            })
+        },
+        clickCategory: function () {
+            $("body").on("change", ".select-category", function () {
+                var categoryID = $(this).val();
+                var key = $(this).data("key");
+                var pageSize = $(this).data("pagesize"); 
+                var cityID = $(this).data("cityid"); 
+
+
+                console.log('key: ' + key, 'pageSize: ' + pageSize, 'cityID: ' + cityID, 'categoryID: ' + categoryID);
+                obj.GetPostAjax(key, 1, pageSize, cityID, categoryID);
+            })
+        },
+        clickReset: function () {
+            $("body").on("click", ".btn-reset", function () {
+                obj.GetPostAjax();
+            })
+        },
+        GetPostAjax: function (key = "", page = 1, pageSize = 5, cityID = 0, categoryID = 0) {
+            $.ajax({
+                url: "/AdminPost/PostListPartial",
+                data: { key: key, page: page, pageSize: pageSize, cityID: cityID, categoryID: categoryID },
+                type: "GET",
+                success: function (response) {
+                    if (response) {
+                        $("#result-data").empty();
+                        $("#result-data").prepend(response);
+                    }
+                }
+            })
+        },
+        deleteKeyWord: function () {
+            $("body").on("click", ".span-close", function () {
+                var categoryID = $(this).data("categoryid");
+                var key = $(this).data("key");
+                var pageSize = $(this).data("pagesize");
+                var cityID = $(this).data("cityid"); 
+
+
+                console.log('key: ' + key, 'pageSize: ' + pageSize, 'cityID: ' + cityID, 'categoryID: ' + categoryID);
+                $(this).parent().remove();
+                obj.GetPostAjax(key, 1, pageSize, cityID, categoryID);
+            })
+        }
+    }
+
+    obj.init();
+</script>

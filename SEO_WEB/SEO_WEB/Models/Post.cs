@@ -13,20 +13,26 @@ namespace SEO_WEB.Models
         [Key]
         public int ID { get; set; }
 
+        [Required(ErrorMessage ="Tên bài viết không được bỏ trống")]
         public string DisplayName { get; set; }
 
+        [Required(ErrorMessage = "Mô tả không được bỏ trống")]
         public string Description { get; set; }
 
         public string Avatar { get; set; }
 
+        [Required(ErrorMessage = "Alt không được bỏ trống")]
         public string Alt { get; set; }
 
+        public string Metas { get; set; }
+
+        [Required(ErrorMessage = "Nội dung bài viết không được bỏ trống")]
         public string Content { get; set; }
 
-        public string Meta { get; set; }
-
+        [Required(ErrorMessage = "Title không được bỏ trống")]
         public string Title { get; set; }
 
+        [Required(ErrorMessage = "Alias không được bỏ trống")]
         public string Alias { get; set; }
 
         public DateTime CreatedTime { get; set; }
@@ -52,6 +58,9 @@ namespace SEO_WEB.Models
 
         public List<Backlink> Backlinks { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; }  
+
+        [NotMapped]
+        public HttpPostedFileBase ImageUpload { get; set; }
     }
 }

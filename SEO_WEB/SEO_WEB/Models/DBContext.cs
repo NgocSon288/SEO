@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace SEO_WEB.Models
 {
@@ -20,6 +16,5 @@ namespace SEO_WEB.Models
         public DbSet<Comment> Comments { set; get; }
         public DbSet<Post> Posts { set; get; }
         public DbSet<User> Users { set; get; }
-         
     }
 }

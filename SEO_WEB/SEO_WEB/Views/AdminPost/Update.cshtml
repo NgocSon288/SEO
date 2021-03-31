@@ -1,0 +1,297 @@
+﻿@model SEO_WEB.Models.Post
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var metaItems = new List<string>();
+    var links = Model.Backlinks.Select(b => b.Link).ToList();
+    var texts = Model.Backlinks.Select(b => b.DisplayName).ToList();
+    if (Model != null)
+    {
+        metaItems = Model.Metas.Split(SEO_WEB.Common.Constants.END_CHAR).ToList();
+    }
+}
+
+@section header{
+    Cập nhật bài viết
+}
+@using (Html.BeginForm("Update", "AdminPost", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label class="col-md-2">Tên bài viết</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Mô tả</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div>
+            <label class="col-md-2">Hình ảnh</label>
+
+            <div class="col-md-10">
+                <input type="file" name="ImageUpload" id="img-input" />
+
+                <img src="~/Assets/Admin/images/post/@Model.Avatar" width="200" height="200" id="preImage" />
+                @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })
+                <br />
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-2">Alt</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Alt, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Alt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Nội dung bài viết</label>
+            <div class="col-md-10">
+                @if (Model == null)
+                {
+                    <textarea class="textarea form-control" name="Content" style="height: 500px;"></textarea>
+                }
+                else
+                {
+                    <textarea class="textarea form-control" name="Content" style="height: 500px;">@Model.Description</textarea>
+                }
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Title</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Alias</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Alias, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Alias, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-md-2">Tỉnh/Thành phố</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CityID, (IEnumerable<SelectListItem>)ViewBag.citySL, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Loại hình du lịch</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CategoryID, (IEnumerable<SelectListItem>)ViewBag.categorySL, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Metas</label>
+            <div class="col-md-10">
+                <table style="width:100%">
+                    <tr>
+                        <th>name</th>
+                        <th colspan="3">content</th>
+                        <th>itemprop</th>
+                        <th>property</th>
+                        <th>http-equiv</th>
+                        <th>Modified</th>
+                    </tr>
+                    <tbody id="content-body" style="width: 100%">
+                        <tr class="trTemp hidden">
+                            <td>
+                                <input name="txtname" class="form-control" />
+                            </td>
+                            <td colspan="3">
+                                <textarea name="txtcontent" class="form-control"></textarea>
+                            </td>
+                            <td>
+                                <input name="txtitemprop" class="form-control" />
+                            </td>
+                            <td>
+                                <input name="txtproperty" class="form-control" />
+                            </td>
+                            <td>
+                                <input name="txtequiv" class="form-control" />
+                            </td>
+                            <td>
+                                <span class="btn btn-danger btn-remove-meta">X</span>
+                            </td>
+                        </tr>
+                        @if (metaItems != null && metaItems.Count > 0)
+                        {
+                            for (int i = 0; i < metaItems.Count; i++)
+                            {
+                                var a = metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR);
+                                if (metaItems[i] == "")
+                                {
+                                    continue;
+                                }
+                                var b = a;
+                                <tr>
+                                    <td>
+                                        <input name="txtname" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[0]" />
+                                    </td>
+                                    <td colspan="3">
+                                        <textarea name="txtcontent" class="form-control">@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[1]</textarea>
+                                    </td>
+                                    <td>
+                                        <input name="txtitemprop" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[2]" />
+                                    </td>
+                                    <td>
+                                        <input name="txtproperty" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[3]" />
+                                    </td>
+                                    <td>
+                                        <input name="txtequiv" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[4]" />
+                                    </td>
+                                    <td>
+                                        <span class="btn btn-danger btn-remove-meta">X</span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <span class="btn btn-success btn-add-meta">+</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Backlinks</label>
+            <div class="col-md-10">
+                <table style="width:100%">
+                    <tr>
+                        <th>Link</th>
+                        <th>Text</th>
+                        <th>Modified</th>
+                    </tr>
+                    <tbody id="content-body-link" style="width: 100%">
+                        <tr class="trTempLink hidden">
+                            <td>
+                                <input name="txtLink" class="form-control" />
+                            </td>
+                            <td>
+                                <input name="txtText" class="form-control" />
+                            </td>
+                            <td>
+                                <span class="btn btn-danger btn-remove-link">X</span>
+                            </td>
+                        </tr>
+                        @if (links != null && links.Count > 0 && links != null && links.Count > 0)
+                        {
+                            var max = links.Count > texts.Count ? links.Count : texts.Count;
+                            for (int i = 0; i < max; i++)
+                            {
+                                if (links[i] != "" && texts[i] != "")
+                                {
+                                    <tr>
+                                        <td>
+                                            <input name="txtLink" class="form-control" value="@links[i]" />
+                                        </td>
+                                        <td>
+                                            <input name="txtText" class="form-control" value="@texts[i]" />
+                                        </td>
+                                        <td>
+                                        <td>
+                                            <span class="btn btn-danger btn-remove-link">X</span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <span class="btn btn-success btn-add-link">+</span>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cập nhật" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section script{
+    <script src="https://cdn.tiny.cloud/1/t07jvsudyvcchkig73cz26tvqqqy3ncrbqt77k8bubg8sa7b/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>tinymce.init({ selector: '.textarea' });</script>
+}
+
+<script>
+    var obj = {
+        init: function () {
+            this.addMeta();
+            this.updateImage();
+            this.addBacklink();
+        },
+        addMeta: function () {
+            $("body").on("click", ".btn-remove-meta", function () {
+                $(this).parents("tr").remove();
+            })
+
+            $("body").on("click", ".btn-add-meta", function () {
+                var html = $(".trTemp").html();
+
+                var tr = $("<tr></tr>").html(html);
+
+                $("#content-body").append(tr);
+            })
+        },
+        addBacklink: function () {
+            $("body").on("click", ".btn-remove-link", function () {
+                $(this).parents("tr").remove();
+            })
+
+            $("body").on("click", ".btn-add-link", function () {
+                var html = $(".trTempLink").html();
+
+                var tr = $("<tr></tr>").html(html);
+
+                $("#content-body-link").append(tr);
+            })
+        },
+        updateImage: function () {
+            $("#img-input").on("change", function () {
+                let ImageUpload = document.getElementById('img-input');
+                let preImage = document.getElementById('preImage')
+
+                if (ImageUpload.files && ImageUpload.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        preImage.src = e.target.result;
+                    }
+                    reader.readAsDataURL(ImageUpload.files[0]);
+                }
+            })
+        }
+    }
+
+    obj.init();
+</script>

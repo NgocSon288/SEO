@@ -1,0 +1,172 @@
+﻿@model List<SEO_WEB.Models.Post>
+
+@{
+    var key = ViewBag.key;
+    var page = ViewBag.page;
+    var pageSize = ViewBag.pageSize;
+    var pageMax = ViewBag.pageMax;
+    var cityID = ViewBag.cityID;
+    var categoryID = ViewBag.categoryID;
+
+    var cities = ViewBag.cities as List<SEO_WEB.Models.City>;
+    var categories = ViewBag.categories as List<SEO_WEB.Models.Category>;
+
+    var pageCount = (pageMax + pageSize - 1) / pageSize;
+    var i = 0;
+}
+
+<style>
+    .tr-delete{
+        background-color: blanchedalmond;
+    }
+</style>
+
+<h3 class="text-danger mb-4">@pageMax bài viết</h3>
+<br />
+<table class="table-product">
+    <thead>
+        <tr>
+            <td>
+                <a class="btn btn-success btn-plus" href="/AdminPost/Create">
+                    <i class="fa fa-plus"></i>
+                    Thêm bài viết
+                </a>
+            </td>
+            <td>
+                <div class="w-100">
+                    <div style="width:75%; float: left;">
+                        <input value="@key" class="form-control textbox-search" style="width: 200px;" />
+                    </div>
+                    <span class="btn btn-primary btn-search col-3" data-pageSize="@pageSize" data-cityID="@cityID" data-categoryID="@categoryID">Tìm</span>
+                </div>
+            </td>
+
+            <td style="padding: 5px 20px;">  
+                <select class="select-city" data-pageSize="@pageSize" data-key="@key" data-categoryID="@categoryID">
+                    @if (cityID == 0)
+                    {
+                        <option value="0" class="btn-city" selected>Tất cả tỉnh/TP</option>
+                    }
+                    else
+                    {
+                        <option value="0" class="btn-city">Tất cả tỉnh/TP</option>
+                    }
+                    @foreach (var item in cities)
+                    {
+                        if (cityID == item.ID)
+                        {
+                            <option class="btn btn-city" value="@item.ID" selected>@item.DisplayName</option>
+                        }
+                        else
+                        {
+                            <option class="btn btn-city" value="@item.ID">@item.DisplayName</option>
+                        }
+                    }
+                </select>
+            </td>
+
+            <td style="padding: 5px 20px;"> 
+                <select class="select-category" data-pageSize="@pageSize" data-key="@key" data-cityID="@cityID">
+                    <option value="0">Tất cả loại hình DL</option>
+                    @foreach (var item in categories)
+                    { 
+                        if (categoryID == item.ID)
+                        {
+                            <option class="btn btn-category" value="@item.ID" selected>@item.DisplayName</option>
+                        }
+                        else
+                        {
+                            <option class="btn btn-category" value="@item.ID">@item.DisplayName</option>
+                        }
+                    }
+                </select>
+            </td>
+
+            <td>
+                <span class="btn-reset btn btn-warning">Reset</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="11">
+                <div class="p-5">
+                    Từ khóa:
+                    @if (key != null && key != "")
+                    {
+                        <div class="span-key">
+                            @key
+                            <span class="span-close" style="color: black; background-color: red; cursor: pointer; padding: 2px 5px;" data-key="" data-page="@page" data-pageSize="@pageSize" data-cityID="@cityID" data-categoryID="@categoryID">x</span>
+                        </div>
+                    }
+                    @if (cityID != 0)
+                    {
+                        <div class="span-key">
+                            @cities.FirstOrDefault(b => b.ID == cityID).DisplayName
+                            <span class="span-close" style="color: black; background-color: red; cursor: pointer; padding: 2px 5px;" data-key="@key" data-page="@page" data-pageSize="@pageSize" data-cityID="0" data-categoryID="@categoryID">x</span>
+                        </div>
+                    }
+
+                    @if (categoryID != 0)
+                    {
+                        <div class="span-key">
+                            @categories.FirstOrDefault(b => b.ID == categoryID).DisplayName
+                            <span class="span-close" style="color: black; background-color: red; cursor: pointer; padding: 2px 5px;" data-key="@key" data-page="@page" data-pageSize="@pageSize" data-cityID="@cityID" data-categoryID="0">x</span>
+                        </div>
+                    }
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Hình ảnh</th>
+            <th>Tên bài viết</th>
+            <th>Thành phố</th>
+            <th>Loại</th>
+            <th>Người tạo</th>
+            <th>Ngày tạo</th>
+            <th>Người cập nhật</th>
+            <th>Ngày cập nhật</th>
+            <th>Modify</th>
+        </tr>
+    </thead>
+    <tbody id="product-body">
+        @foreach (var item in Model)
+        {
+            <tr class='@(item.IsDeleted?"tr-delete":"")'>
+                <td>
+                    <img src="~/Assets/Admin/images/post/@item.Avatar" width="150" height="150" />
+                </td>
+                <td><b>@item.DisplayName</b></td>
+                <td>@cities.FirstOrDefault(c => c.ID == item.CityID).DisplayName</td>
+                <td>@categories.FirstOrDefault(c => c.ID == item.CategoryID).DisplayName</td>
+                <td>@item.CreatedBy</td>
+                <td>@item.CreatedTime.ToShortDateString()</td>
+                <td>@item.UpdatedBy</td>
+                <td>@item.UpdatedTime.ToShortDateString()</td>
+                <td>
+                    <a class="btn btn-primary btn-update" href="/AdminPost/Update/@item.ID">Cập nhật</a>
+                    <span class="btn btn-danger btn-delete" data-id="@item.ID" data-isdelete="@item.IsDeleted">Xóa</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />  
+
+<ul class="list-unstyled list-inline">
+    @for (i = 1; i <= pageCount; i++)
+    {
+        <li>
+            @if (i == page)
+            {
+                <span class="btn btn-primary btn-pagin" data-page="@i" data-pageSize="@pageSize" data-key="@key" data-cityID="@cityID" data-categoryID="@categoryID">@i</span>
+            }
+            else
+            {
+                <span class="btn btn-default btn-pagin" data-page="@i" data-pageSize="@pageSize" data-key="@key" data-cityID="@cityID" data-categoryID="@categoryID">@i</span>
+            }
+        </li>
+    }
+</ul>
+ 

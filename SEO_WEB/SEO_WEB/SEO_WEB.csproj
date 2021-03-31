@@ -130,9 +130,11 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Controllers\AdminAccountController.cs" />
     <Compile Include="Controllers\AdminBaseController.cs" />
+    <Compile Include="Controllers\AdminCategoryController.cs" />
     <Compile Include="Controllers\AdminCityController.cs" />
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminAreaController.cs" />
+    <Compile Include="Controllers\AdminPostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -151,6 +153,26 @@
     <Compile Include="Migrations\202103301316174_update_foreign_key_entity.cs" />
     <Compile Include="Migrations\202103301316174_update_foreign_key_entity.designer.cs">
       <DependentUpon>202103301316174_update_foreign_key_entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103310305174_update_attribute_entity.cs" />
+    <Compile Include="Migrations\202103310305174_update_attribute_entity.designer.cs">
+      <DependentUpon>202103310305174_update_attribute_entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103310419357_update_meta_entity.cs" />
+    <Compile Include="Migrations\202103310419357_update_meta_entity.designer.cs">
+      <DependentUpon>202103310419357_update_meta_entity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103310421444_delete-meta-property.cs" />
+    <Compile Include="Migrations\202103310421444_delete-meta-property.designer.cs">
+      <DependentUpon>202103310421444_delete-meta-property.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103310649423_update_meta.cs" />
+    <Compile Include="Migrations\202103310649423_update_meta.designer.cs">
+      <DependentUpon>202103310649423_update_meta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103310656546_update_meta_v1.1.cs" />
+    <Compile Include="Migrations\202103310656546_update_meta_v1.1.designer.cs">
+      <DependentUpon>202103310656546_update_meta_v1.1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Area.cs" />
@@ -184,6 +206,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Assets\Admin\images\category\" />
+    <Folder Include="Assets\Admin\images\post\" />
     <Folder Include="Assets\Admin\js\" />
     <Folder Include="Scripts\" />
     <Folder Include="Views\AdminBase\" />
@@ -204,6 +228,13 @@
     <Content Include="Views\AdminCity\Index.cshtml" />
     <Content Include="Views\AdminCity\Create.cshtml" />
     <Content Include="Views\AdminCity\Update.cshtml" />
+    <Content Include="Views\AdminCategory\Index.cshtml" />
+    <Content Include="Views\AdminCategory\Create.cshtml" />
+    <Content Include="Views\AdminCategory\Update.cshtml" />
+    <Content Include="Views\AdminPost\Index.cshtml" />
+    <Content Include="Views\AdminPost\PostListPartial.cshtml" />
+    <Content Include="Views\AdminPost\Create.cshtml" />
+    <Content Include="Views\AdminPost\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202103291527581_initialize_db.resx">
@@ -217,6 +248,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103301316174_update_foreign_key_entity.resx">
       <DependentUpon>202103301316174_update_foreign_key_entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103310305174_update_attribute_entity.resx">
+      <DependentUpon>202103310305174_update_attribute_entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103310419357_update_meta_entity.resx">
+      <DependentUpon>202103310419357_update_meta_entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103310421444_delete-meta-property.resx">
+      <DependentUpon>202103310421444_delete-meta-property.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103310649423_update_meta.resx">
+      <DependentUpon>202103310649423_update_meta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103310656546_update_meta_v1.1.resx">
+      <DependentUpon>202103310656546_update_meta_v1.1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -37,6 +37,7 @@ namespace SEO_WEB.Models
 
         public List<Post> Posts { get; set; }
 
+
         [NotMapped]
         public HttpPostedFileBase ImageUpload { get; set; }
     }
