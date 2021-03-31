@@ -13,12 +13,19 @@ namespace SEO_WEB.Models
         [Key]
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "Tài khoản không được bỏ trống")]
         public string Username { get; set; }
 
+
+        [Required(ErrorMessage = "Mật khẩu không được bỏ trống")]
         public string Password { get; set; }
 
+
+        [Required(ErrorMessage = "Họ và tên không được bỏ trống")]
         public string DisplayName { get; set; }
 
+
+        [Required(ErrorMessage = "Email không được bỏ trống")]
         public string Email { get; set; }
 
         public string Avatar { get; set; }
@@ -29,5 +36,9 @@ namespace SEO_WEB.Models
 
 
         public List<Comment> Comments { get; set; }
+
+
+        [NotMapped]
+        public HttpPostedFileBase ImageUpload { get; set; }
     }
 }

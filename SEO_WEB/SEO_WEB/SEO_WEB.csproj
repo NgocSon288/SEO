@@ -132,9 +132,11 @@
     <Compile Include="Controllers\AdminBaseController.cs" />
     <Compile Include="Controllers\AdminCategoryController.cs" />
     <Compile Include="Controllers\AdminCityController.cs" />
+    <Compile Include="Controllers\AdminCommentController.cs" />
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminAreaController.cs" />
     <Compile Include="Controllers\AdminPostController.cs" />
+    <Compile Include="Controllers\AdminUserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -174,6 +176,10 @@
     <Compile Include="Migrations\202103310656546_update_meta_v1.1.designer.cs">
       <DependentUpon>202103310656546_update_meta_v1.1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103311523308_updat_user_prop.cs" />
+    <Compile Include="Migrations\202103311523308_updat_user_prop.designer.cs">
+      <DependentUpon>202103311523308_updat_user_prop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Area.cs" />
     <Compile Include="Models\Backlink.cs" />
@@ -208,6 +214,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Assets\Admin\images\category\" />
     <Folder Include="Assets\Admin\images\post\" />
+    <Folder Include="Assets\Admin\images\user\" />
     <Folder Include="Assets\Admin\js\" />
     <Folder Include="Scripts\" />
     <Folder Include="Views\AdminBase\" />
@@ -235,6 +242,12 @@
     <Content Include="Views\AdminPost\PostListPartial.cshtml" />
     <Content Include="Views\AdminPost\Create.cshtml" />
     <Content Include="Views\AdminPost\Update.cshtml" />
+    <Content Include="Views\AdminComment\Index.cshtml" />
+    <Content Include="Views\AdminComment\CommentListPartial.cshtml" />
+    <Content Include="Views\AdminAccount\SignUp.cshtml" />
+    <Content Include="Views\AdminAccount\Update.cshtml" />
+    <Content Include="Views\AdminUser\Index.cshtml" />
+    <Content Include="Views\AdminUser\UserListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202103291527581_initialize_db.resx">
@@ -263,6 +276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103310656546_update_meta_v1.1.resx">
       <DependentUpon>202103310656546_update_meta_v1.1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103311523308_updat_user_prop.resx">
+      <DependentUpon>202103311523308_updat_user_prop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,12 +1,24 @@
 ﻿@{
     var user = Session[SEO_WEB.Common.Constants.SESSION] as SEO_WEB.Models.User;
 }
+
+<style>
+    .img-avatar{
+        border-radius: 50%;
+    }
+</style>
+
 <div class="header-main">
     <a href="javascript:void()">
-        <h1>Xin chào: @user.DisplayName</h1>
+        <img src="~/Assets/Admin/images/user/@user.Avatar" alt="@user.Alt" width="70" height="70" class="img-avatar" />
+        <span style="font-size: 26px;">Xin chào: @user.DisplayName</span>
     </a>
     <br />
     <a href="/AdminAccount/Logout" style="color: red;">Đăng xuất</a>
-    
+
+    @if (user.Username.ToUpper() != "ADMIN")
+    {
+        <a href="/AdminAccount/Update" style="color: red; margin-left: 40px;">Cập nhật</a>
+    }
     <div class="clearfix"> </div>
 </div>

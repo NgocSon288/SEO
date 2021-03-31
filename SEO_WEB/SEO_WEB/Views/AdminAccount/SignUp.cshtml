@@ -1,0 +1,105 @@
+﻿@model SEO_WEB.Models.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <style>
+        .parent {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .text-danger{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        @using (Html.BeginForm("SignUp", "AdminAccount", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data", onsubmit = "return onSubmit()" }))
+        {
+            @Html.AntiForgeryToken()
+            <span>Tên: </span>
+            @Html.TextBoxFor(Model => Model.DisplayName)<br /><br />
+            @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })<br /><br />
+
+            <span>Email: </span>
+            @Html.TextBoxFor(Model => Model.Email)<br /><br />
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })<br /><br />
+
+            <span>Tài khoản: </span>
+            @Html.TextBoxFor(Model => Model.Username)<br /><br />
+            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })<br /><br />
+
+
+            <span>Mật khẩu:</span>
+            @Html.PasswordFor(Model => Model.Password, new { @class = "password" })<br /><br />
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })<br /><br />
+
+            <span>Nhập lại mật khẩu:</span>
+            @Html.Password("txtConfirmPassword", "", new { @class = "confirm" }) <br /><br />
+
+
+            <div>
+                <input type="file" name="ImageUpload" id="img-input" />
+
+                <img src="" width="200" height="200" id="preImage" />
+            </div>
+             
+            @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })<br /><br />
+
+            <br />
+
+            <input type="submit" value="Đăng ký" />
+        }
+    </div>
+</body>
+</html>
+
+<script>
+    const obj = {
+        init: function () {
+            this.updateImage();
+        },
+        updateImage: function () {
+            document.querySelector("#img-input").addEventListener('change', function () {
+                let ImageUpload = document.getElementById('img-input');
+                let preImage = document.getElementById('preImage')
+
+                console.log(ImageUpload, preImage);
+
+                if (ImageUpload.files && ImageUpload.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        preImage.src = e.target.result;
+                    }
+                    reader.readAsDataURL(ImageUpload.files[0]);
+                }
+            })
+
+        }
+    }
+
+    obj.init();
+
+    function onSubmit() {
+        let pass = document.querySelector('.password');
+        let confirm = document.querySelector('.confirm');
+         
+        if (pass.value != confirm.value) {
+            alert("Xác nhận mật khẩu không hợp lệ");
+
+            return false;
+        }
+
+        return true;
+    }
+</script>

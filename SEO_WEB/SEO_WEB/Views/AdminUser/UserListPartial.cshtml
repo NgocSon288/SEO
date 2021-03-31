@@ -1,0 +1,64 @@
+﻿@model List<SEO_WEB.Models.User>
+
+@{
+    var key = ViewBag.key;
+    var page = ViewBag.page;
+    var pageSize = ViewBag.pageSize;
+    var pageMax = ViewBag.pageMax;
+
+    var pageCount = (pageMax + pageSize - 1) / pageSize;
+    var i = 1;
+}
+
+<h3 class="text-danger mb-4">@pageMax thành viên</h3>
+<br />
+<table class="table table-striped table-hover w-100">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Hình ảnh</th>
+            <th>Tên</th>
+            <th>Tài khoản</th>
+            <th>Email</th>
+            <th>Quản trị</th>
+        </tr>
+    </thead>
+    <tbody id="product-body">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@(i++)</td>
+            <td><img src="~/Assets/Admin/images/user/@item.Avatar" alt="@item.Alt" width="100" height="100" /></td>
+            <td>@item.DisplayName</td>
+            <td>@item.Username</td>
+            <td>@item.Email</td>
+            @if (item.DisplayName.ToUpper() == "ADMIN")
+            {
+                <td style="color: red;"><b>admin</b></td>
+            }
+            else
+            {
+                <td><a href="javascript:void(0)" class="btn-update" data-id="@item.ID" data-ismember="@item.IsMember">@(item.IsMember?"admin":"khách hàng")</a></td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<ul class="list-unstyled list-inline">
+    @for (i = 1; i <= pageCount; i++)
+    {
+        <li>
+            @if (i == page)
+            {
+                <span class="btn btn-primary btn-pagin" data-page="@i" data-pageSize="@pageSize">@i</span>
+            }
+            else
+            {
+                <span class="btn btn-default btn-pagin" data-page="@i" data-pageSize="@pageSize">@i</span>
+            }
+        </li>
+    }
+</ul>

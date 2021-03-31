@@ -1,7 +1,6 @@
-	* User
-		- cấp quyền
+quản lý truy cập
+lược đăng nhập của user
+...
 
-	* Comment
-		- xóa 
-
-	
+meta index
+meta danh sách các bài viết
