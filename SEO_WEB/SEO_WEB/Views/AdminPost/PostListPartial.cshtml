@@ -10,6 +10,7 @@
 
     var cities = ViewBag.cities as List<SEO_WEB.Models.City>;
     var categories = ViewBag.categories as List<SEO_WEB.Models.Category>;
+    var comments = ViewBag.comments as List<SEO_WEB.Models.Comment>;
 
     var pageCount = (pageMax + pageSize - 1) / pageSize;
     var i = 0;
@@ -122,6 +123,7 @@
             <th>Tên bài viết</th>
             <th>Thành phố</th>
             <th>Loại</th>
+            <th>SL ĐG</th>
             <th>Người tạo</th>
             <th>Ngày tạo</th>
             <th>Người cập nhật</th>
@@ -139,11 +141,13 @@
                 <td><b>@item.DisplayName</b></td>
                 <td>@cities.FirstOrDefault(c => c.ID == item.CityID).DisplayName</td>
                 <td>@categories.FirstOrDefault(c => c.ID == item.CategoryID).DisplayName</td>
+                <td>@(comments.Count(c=>c.PostID == item.ID))</td>
                 <td>@item.CreatedBy</td>
                 <td>@item.CreatedTime.ToShortDateString()</td>
                 <td>@item.UpdatedBy</td>
                 <td>@item.UpdatedTime.ToShortDateString()</td>
                 <td>
+                    <a class="btn btn-primary btn-update" href="/AdminComment/ListCommentByPostID/@item.ID">Đánh giá</a>
                     <a class="btn btn-primary btn-update" href="/AdminPost/Update/@item.ID">Cập nhật</a>
                     <span class="btn btn-danger btn-delete" data-id="@item.ID" data-isdelete="@item.IsDeleted">Xóa</span>
                 </td>

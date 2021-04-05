@@ -1,0 +1,147 @@
+﻿@model SEO_WEB.Models.Home
+
+@{
+    var cities = ViewBag.cities as List<SEO_WEB.Models.City>;
+}
+
+<section id="hero">
+    <div class="background-container">
+        <img src="~/Assets/Admin/images/home/@Model.Image" style="width: 100%" />
+    </div>
+    <div class="overlay"></div>
+    <div id="top">
+        <h1 class="text-4xl font-medium text-white mt-28 mb-4">Tìm kiếm điểm đến của bạn</h1>
+    </div>
+    <div class="wide relative">
+        <div class="search-form bg-white flex text-gray-600 max-w-3xl m-auto rounded-sm">
+            <input type="search" class="p-2 flex-1 rounded-sm txt-search" placeholder="Tìm kiếm" />
+            <button class="px-2 btn-search"><i class="fas fa-search"></i></button>
+        </div>
+        <ul class="text-xs font-mono text-white italic text-left max-w-3xl m-auto my-2 flex gap-2 flex-wrap">
+
+            @if (Model.Keywords != null && Model.Keywords.Length > 0)
+            {
+                foreach (var item in Model.Keywords.Split('|'))
+                {
+                    var ci = cities.FirstOrDefault(c => c.DisplayName.ToUpper() == item.ToUpper());
+                    if (ci == null)
+                    {
+                        continue;
+                    }
+                    <li class="tag-white btn-keyword" data-keyword="@item">
+                        #@item
+                    </li>
+                }
+            }
+
+        </ul>
+    </div>
+
+    <section class="text-white body-font relative wide">
+        <div class="container px-5 py-14 mx-auto">
+            <div class="flex flex-wrap -m-4 text-center">
+                <div class="p-4 sm:w-1/4 w-1/2">
+                    <h2 class="title-font font-medium sm:text-4xl text-3xl">2.7K</h2>
+                    <p class="leading-relaxed">Bài viết</p>
+                </div>
+                <div class="p-4 sm:w-1/4 w-1/2">
+                    <h2 class="title-font font-medium sm:text-4xl text-3xl">1.8K</h2>
+                    <p class="leading-relaxed">Hình ảnh</p>
+                </div>
+                <div class="p-4 sm:w-1/4 w-1/2">
+                    <h2 class="title-font font-medium sm:text-4xl text-3xl">35</h2>
+                    <p class="leading-relaxed">Quốc gia</p>
+                </div>
+                <div class="p-4 sm:w-1/4 w-1/2">
+                    <h2 class="title-font font-medium sm:text-4xl text-3xl">4</h2>
+                    <p class="leading-relaxed">Châu lục</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="relative h-20"></div>
+</section>
+
+<script>
+    const objSearch = {
+        init: function () {
+            this.enterSearch();
+            this.clickSearch();
+            this.clickKeyword();
+        },
+        enterSearch: function () {
+            $('.txt-search').on('keyup', function () {
+                if (event.keyCode == 13) {
+                    $(".btn-search").click();
+                }
+            })
+        },
+        clickSearch: function () {
+            $('.btn-search').on('click', function () {
+                let text = $('.txt-search').val().trim();
+                text = objSearch.convertString(text).toLowerCase();
+
+                while (text.indexOf('  ') >= 0) {
+                    text = text.replace('  ', ' ');
+                }
+
+                while (text.indexOf(' ') >= 0) {
+                    text = text.replace(' ', '-');
+                }
+
+                if (text) {
+                    window.location = `/bai-viet/${text}`;
+                }
+            })
+        },
+        clickKeyword: function () {
+            $('.btn-keyword').on('click', function () {
+                let text = $(this).data('keyword'); 
+
+                text = objSearch.convertString(text).toLowerCase();
+
+                while (text.indexOf('  ') >= 0) {
+                    text = text.replace('  ', ' ');
+                }
+
+                while (text.indexOf(' ') >= 0) {
+                    text = text.replace(' ', '-');
+                }
+
+                if (text) {
+                    window.location = `/bai-viet/${text}`;
+                }
+            })
+        },
+        convertString: function (str) {
+            const VietnameseChar = [
+                "aAeEoOuUiIdDyY",
+                "áàạảãâấầậẩẫăắằặẳẵ",
+                "ÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴ",
+                "éèẹẻẽêếềệểễ",
+                "ÉÈẸẺẼÊẾỀỆỂỄ",
+                "óòọỏõôốồộổỗơớờợởỡ",
+                "ÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠ",
+                "úùụủũưứừựửữ",
+                "ÚÙỤỦŨƯỨỪỰỬỮ",
+                "íìịỉĩ",
+                "ÍÌỊỈĨ",
+                "đ",
+                "Đ",
+                "ýỳỵỷỹ",
+                "ÝỲỴỶỸ"
+            ];
+
+            for (let i = 1; i < VietnameseChar.length; i++) {
+                for (let j = 0; j < VietnameseChar[i].length; j++) {
+                    str = str.replace(VietnameseChar[i][j], VietnameseChar[0][i - 1]);
+                }
+            }
+
+            return str;
+        }
+    }
+
+    objSearch.init();
+</script>

@@ -1,0 +1,171 @@
+﻿@model List<SEO_WEB.Models.Post>
+
+@{
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+
+
+    var postPage = ViewBag.postPage as SEO_WEB.Models.PostPage;
+    var cities = ViewBag.cities as List<SEO_WEB.Models.City>;
+    var categories = ViewBag.categories as List<SEO_WEB.Models.Category>;
+    var a = Model;
+    var HighlightPostWeek = Model.OrderByDescending(p => p.IsPriority).ToList();
+    var count = HighlightPostWeek.Count;
+    HighlightPostWeek = count > 8 ? HighlightPostWeek.Take(8).ToList() : HighlightPostWeek.ToList();
+    var cit = ViewBag.cityMetas as SEO_WEB.Models.City;
+    if (cit != null)
+    {
+        postPage.Metas += "|" + cit.Metas;
+    }
+
+    var i = 0;
+
+    if (ViewBag.city == "")
+    {
+        ViewBag.Title = postPage.Title;
+    }
+    else
+    {
+        ViewBag.Title = cities.FirstOrDefault(c => c.Alias == ViewBag.city).Title;
+    }
+}
+
+@section meta{
+    @Html.Partial("~/Views/Shared/_ClientMetasPartial.cshtml", postPage.Metas == null ? "" : postPage.Metas)
+}
+
+<main class="wide space-y-20" style="margin-top: 80px">
+    <!-- top blog -->
+    <section class="top-blogs text-gray-600 body-font">
+        <div class="my-4 mx-auto">
+            <div class="w-full mb-6">
+                <h3 class="sm:text-2xl text-2xl font-medium mb-2 text-gray-900">Bài viết nổi bật trong tuần</h3>
+                <div class="h-1 w-20 bg-lightBlue-700 rounded"></div>
+            </div>
+
+            <div class="blogs-container flex flex-wrap gap-8">
+
+                @if (HighlightPostWeek.Count <= 0)
+                {
+                    <p>Chưa có bài viết nào!</p>
+                }
+                else
+                {
+                    foreach (var item in HighlightPostWeek)
+                    {
+                        var ci = cities.FirstOrDefault(c => c.ID == item.CityID).Alias;
+                        var ca = categories.FirstOrDefault(c => c.ID == item.CategoryID).Alias;
+
+                        <a href="/@ci/@ca/@item.Alias-@item.ID">
+                            <div class="blog-card">
+                                <div class="bg-white">
+                                    <!-- 720x400 -->
+                                    <img class="h-40 w-full object-cover object-center"
+                                         src="~/Assets/Admin/images/post/@item.Avatar"
+                                         alt="@item.Alt" />
+                                    <div class="px-4 py-2">
+                                        <h5 class="text-lg text-gray-900 font-medium mb-2" style="height: 56px;">@item.DisplayName</h5>
+                                        <p class="leading-relaxed text-base" style="height: 52px;">@item.Description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- quote -->
+    <section class="text-gray-600 body-font">
+        <div class="mx-auto">
+            <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+                <i class="fas fa-quote-right text-2xl"></i>
+                <p class="leading-relaxed text-lg">
+                    Hai mươi năm về sau bạn sẽ hối hận về những gì bạn không làm hơn là những gì bạn làm. Vậy nên hãy tháo dây, nhổ neo ra khỏi bến đỗ an
+                    toàn. Hãy để cánh buồn của bạn đón trọn lấy gió, thám hiểm, mơ mộng, khám phá.
+                </p>
+                <span class="inline-block h-1 w-10 rounded bg-lightBlue-600 mt-8 mb-6"></span>
+            </div>
+        </div>
+    </section>
+    <!-- end quote -->
+    <!-- category -->
+    <section class="category text-gray-600 body-font">
+        <div class="flex flex-col text-center w-full mb-10">
+            <h2 class="sm:text-3xl text-2xl font-medium mb-4 text-gray-900">Bài viết theo từng danh mục</h2>
+            <div class="flex justify-center gap-4 my-4 flex-wrap">
+                @foreach (var item in categories)
+                {
+                    <button class="tab-btn tab-pane location @(i++<=0?"active":"") btn-category" data-id="@item.ID">@item.DisplayName</button>
+
+                }
+            </div>
+        </div>
+        <div class="tabs">
+            <div id="trai-nghiem" class="tab-item active">
+                <div class="post-container" id="result-data">
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end category -->
+</main>
+
+<script>
+    var obj = {
+        init: function () {
+            this.load();
+            this.clickCategory();
+
+        },
+        load: function () {
+            const id = $('.btn-category').data('id');
+
+            this.GetListPostAjax(id);
+        },
+        clickCategory: function () {
+            $('body').on('click', '.btn-category', function () {
+                let id = $(this).data('id');
+                $('.btn-category').removeClass('active');
+                $(this).addClass('active');
+
+                obj.GetListPostAjax(id);
+            })
+        },
+        GetListPostAjax: function (id) { // alias
+            $.ajax({
+                url: "/ClientListPost/GetListPostByCategoryPartial",
+                data: { id: id },
+                type: "GET",
+                success: function (response) {
+                    if (response) {
+                        $("#result-data").empty();
+                        $("#result-data").prepend(response);
+                    }
+                }
+            })
+        }
+    }
+
+    obj.init();
+</script>
+
+<script>
+    const objHead = {
+        init: function () {
+            this.load();
+        },
+        load: function () {
+            $('.btn-head-tab').removeClass('active');
+            $('.btn-posts').addClass('active');
+        },
+    }
+
+    objHead.load();
+</script>
+
+@section script{
+    <script src="~/Assets/Client/js/index.js"></script>
+}

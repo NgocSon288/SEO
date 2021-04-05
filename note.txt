@@ -1,6 +1,9 @@
 quản lý truy cập
 lược đăng nhập của user
 ...
+ 
 
-meta index
-meta danh sách các bài viết
+
+title, meta danh sách các bài viết (thêm, cập nhật)
+
+avatar post = 720 x 400

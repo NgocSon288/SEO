@@ -29,6 +29,10 @@ namespace SEO_WEB.Models
 
         public bool IsDeleted { get; set; }
 
+        public string Metas { get; set; }
+
+        [Required(ErrorMessage = "Title không được bỏ trống")]
+        public string Title { get; set; }
 
         [ForeignKey("Area")]
         public int AreaID { get; set; }

@@ -34,6 +34,8 @@ namespace SEO_WEB.Controllers
             ViewBag.cities = db.Cities.Where(c => !c.IsDeleted).ToList();
             ViewBag.categories = db.Categories.Where(c => !c.IsDeleted).ToList();
 
+            ViewBag.comments = db.Comments.ToList();
+
             return PartialView(data);
         }
 
@@ -79,6 +81,11 @@ namespace SEO_WEB.Controllers
                 if (db.Posts.FirstOrDefault(p => p.Alias.ToUpper() == model.Alias.ToUpper()) != null)
                 {
                     ModelState.AddModelError("Alias", "Alias bài viết đã tồn tại");
+                }
+
+                if (db.Posts.FirstOrDefault(p => p.Alias.ToUpper() == model.Alias.ToUpper()) != null)
+                {
+                    ModelState.AddModelError("TitleH1", "Thẻ h1 bài viết đã tồn tại");
                 }
 
                 if (model.ImageUpload == null)
@@ -181,6 +188,11 @@ namespace SEO_WEB.Controllers
                     ModelState.AddModelError("Alias", "Alias bài viết đã tồn tại");
                 }
 
+                if (db.Posts.FirstOrDefault(p => p.ID != model.ID && p.Alias.ToUpper() == model.Alias.ToUpper()) != null)
+                {
+                    ModelState.AddModelError("TitleH1", "Thẻ h1 bài viết đã tồn tại");
+                }
+
                 if (ModelState.IsValid)
                 {
                     try
@@ -211,9 +223,11 @@ namespace SEO_WEB.Controllers
                     post.Metas = model.Metas;
                     post.Content = model.Content;
                     post.Title = model.Title;
+                    post.TitleH1 = model.TitleH1;
                     post.Alias = model.Alias;
                     post.CityID = model.CityID;
                     post.CategoryID = model.CategoryID;
+                    post.IsPriority = model.IsPriority;
                     post.UpdatedBy = (Session[Constants.SESSION] as User).DisplayName;
                     post.UpdatedTime = DateTime.Now;
 

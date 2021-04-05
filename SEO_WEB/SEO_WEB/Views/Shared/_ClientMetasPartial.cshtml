@@ -1,0 +1,23 @@
+﻿@model string
+
+@if (Model != null && Model.Length > 0)
+{
+    var metas = Model != null ? Model.Split(SEO_WEB.Common.Constants.END_CHAR) : new string[0];
+    foreach (var item in metas)
+    {
+        try
+        {
+            var name = item.Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[0];
+            var content = item.Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[1];
+            var itemprop = item.Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[2];
+            var property = item.Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[3];
+            var http_equiv = item.Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[4];
+
+            <meta name="@name" content="@content" itemprop="@itemprop" property="@property" http-equiv="@http_equiv" />
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+}

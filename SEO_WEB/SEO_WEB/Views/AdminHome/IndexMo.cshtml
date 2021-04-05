@@ -1,0 +1,244 @@
+﻿@model SEO_WEB.Models.Home
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var keywords = Model.Keywords != null ? Model.Keywords.Split('|') : new string[0];
+    var metaItems = Model.Metas != null ? Model.Metas.Split(SEO_WEB.Common.Constants.END_CHAR) : new string[0];
+}
+
+
+@section header{
+    Quản lý Trang chủ
+}
+
+@using (Html.BeginForm("IndexMo", "AdminHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <label>Tiêu đề</label>
+    <br />
+    @Html.TextBoxFor(Model => Model.Title, new { @class = "form-control" });
+    <br />
+
+    <br />
+
+    <label>Hình ảnh background</label>
+    <div>
+        <input type="file" name="ImageUpload" id="img-input" />
+
+        <img src="~/Assets/Admin/images/home/@Model.Image" width="200" height="200" id="preImage" />
+    </div>
+    <br />
+
+    <label>Alt hình ảnh background</label>
+    <br />
+    @Html.TextBoxFor(Model => Model.Alt, new { @class = "form-control" });
+    <br />
+
+
+    <label>Logo</label>
+    <div>
+        <input type="file" name="ImageUploadLogo" id="img-input-logo" />
+
+        <img src="~/Assets/Admin/images/home/@Model.Logo" width="200" height="200" id="preImage-logo" />
+    </div>
+    <br />
+
+    <label>Alt logo</label>
+    <br />
+    @Html.TextBoxFor(Model => Model.AltLogo, new { @class = "form-control" });
+    <br />
+
+    <div class="form-group">
+        <label class="col-md-2">Keyword</label>
+        <div class="col-md-10">
+            <table style="width:100%">
+                <tr>
+                    <th>Keywords</th>
+                    <th>Modified</th>
+                </tr>
+                <tbody id="content-body" style="width: 100%">
+                    <tr class="trTemp hidden">
+                        <td>
+                            <input name="txtKeyword" class="form-control" />
+                        </td>
+                        <td>
+                            <span class="btn btn-danger btn-remove-keyword">X</span>
+                        </td>
+                    </tr>
+                    @if (Model.Keywords != null && keywords.Length > 0)
+                    {
+                        for (int i = 0; i < keywords.Length; i++)
+                        {
+                            var a = keywords[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR);
+                            if (keywords[i] == "")
+                            {
+                                continue;
+                            }
+                            var b = a;
+                            <tr>
+                                <td>
+                                    <input name="txtKeyword" class="form-control" value="@keywords[i]" />
+                                </td>
+                                <td>
+                                    <span class="btn btn-danger btn-remove-keyword">X</span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <span class="btn btn-success btn-add-keyword">+</span>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label class="col-md-2">Metas</label>
+        <div class="col-md-10">
+            <table style="width:100%">
+                <tr>
+                    <th>name</th>
+                    <th colspan="3">content</th>
+                    <th>itemprop</th>
+                    <th>property</th>
+                    <th>http-equiv</th>
+                    <th>Modified</th>
+                </tr>
+                <tbody id="content-body-meta" style="width: 100%">
+                    <tr class="trTempMeta hidden">
+                        <td>
+                            <input name="txtname" class="form-control" />
+                        </td>
+                        <td colspan="3">
+                            <textarea name="txtcontent" class="form-control"></textarea>
+                        </td>
+                        <td>
+                            <input name="txtitemprop" class="form-control" />
+                        </td>
+                        <td>
+                            <input name="txtproperty" class="form-control" />
+                        </td>
+                        <td>
+                            <input name="txtequiv" class="form-control" />
+                        </td>
+                        <td>
+                            <span class="btn btn-danger btn-remove-meta">X</span>
+                        </td>
+                    </tr>
+                    @if (metaItems != null && metaItems.Length > 0)
+                    {
+                        for (int i = 0; i < metaItems.Length; i++)
+                        {
+                            var a = metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR);
+                            if (metaItems[i] == "")
+                            {
+                                continue;
+                            }
+                            var b = a;
+                            <tr>
+                                <td>
+                                    <input name="txtname" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[0]" />
+                                </td>
+                                <td colspan="3">
+                                    <textarea name="txtcontent" class="form-control">@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[1]</textarea>
+                                </td>
+                                <td>
+                                    <input name="txtitemprop" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[2]" />
+                                </td>
+                                <td>
+                                    <input name="txtproperty" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[3]" />
+                                </td>
+                                <td>
+                                    <input name="txtequiv" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[4]" />
+                                </td>
+                                <td>
+                                    <span class="btn btn-danger btn-remove-meta">X</span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <span class="btn btn-success btn-add-meta">+</span>
+        </div>
+    </div>
+
+
+    <label>Footer</label>
+    <br />
+    @Html.TextAreaFor(Model => Model.Footer, new { @class = "form-control", rows = "20" });
+    <br />
+
+    <input type="submit" value="Cập nhật" />
+}
+
+
+<script>
+    const obj = {
+        init: function () {
+            this.updateImage();
+            this.addKeyword();
+            this.addMeta();
+        },
+        updateImage: function () {
+            $("#img-input").on("change", function () {
+                let ImageUpload = document.getElementById('img-input');
+                let preImage = document.getElementById('preImage')
+
+                if (ImageUpload.files && ImageUpload.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        preImage.src = e.target.result;
+                    }
+                    reader.readAsDataURL(ImageUpload.files[0]);
+                }
+            })
+
+            $("#img-input-logo").on("change", function () {
+                let ImageUpload = document.getElementById('img-input-logo');
+                let preImage = document.getElementById('preImage-logo')
+
+                if (ImageUpload.files && ImageUpload.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        preImage.src = e.target.result;
+                    }
+                    reader.readAsDataURL(ImageUpload.files[0]);
+                }
+            })
+        },
+        addKeyword: function () {
+            $("body").on("click", ".btn-remove-keyword", function () {
+                $(this).parents("tr").remove();
+            })
+
+            $("body").on("click", ".btn-add-keyword", function () {
+                var html = $(".trTemp").html();
+
+                var tr = $("<tr></tr>").html(html);
+
+                $("#content-body").append(tr);
+            })
+        },
+        addMeta: function () {
+            $("body").on("click", ".btn-remove-meta", function () {
+                $(this).parents("tr").remove();
+            })
+
+            $("body").on("click", ".btn-add-meta", function () {
+                var html = $(".trTempMeta").html();
+
+                var tr = $("<tr></tr>").html(html);
+
+                $("#content-body-meta").append(tr);
+            })
+        }
+    }
+
+    obj.init();
+</script>

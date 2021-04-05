@@ -1,0 +1,249 @@
+﻿@model SEO_WEB.Models.Post
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+
+    var users = ViewBag.users as List<SEO_WEB.Models.User>;
+    var comments = ViewBag.comments as List<SEO_WEB.Models.Comment>;
+    var relativePosts = ViewBag.relativePosts as List<SEO_WEB.Models.Post>;
+    var cities = ViewBag.cities as List<SEO_WEB.Models.City>;
+    var categories = ViewBag.categories as List<SEO_WEB.Models.Category>;
+    var city = cities.FirstOrDefault(c => c.ID == Model.CityID);
+    var cate = categories.FirstOrDefault(c => c.ID == Model.CategoryID);
+    var user = Session[SEO_WEB.Common.Constants.SESSION] as SEO_WEB.Models.User;
+    var backlinks = ViewBag.backlinks as List<SEO_WEB.Models.Backlink>;
+
+    var i = 0;
+}
+
+
+@section meta{
+    @Html.Partial("~/Views/Shared/_ClientMetasPartial.cshtml", Model.Metas)
+}
+
+<main class="wide space-y-20" style="margin-top: 80px">
+    <!-- location -->
+    <section class="blog">
+        <div class="blog-breadcrumb my-4 text-lg uppercase flex flex-row-reverse">
+            <ul class="flex space-x-3">
+                <li class="hover:text-lightBlue-700">
+                    <a href="/">Trang chủ /</a>
+                </li>
+                <li class="hover:text-lightBlue-700">
+                    <a href="/bai-viet-tong-hop/@city.Alias">@city.DisplayName /</a>
+                </li>
+                <li class="hover:text-lightBlue-700">
+                    <a href="/bai-viet-tong-hop/@city.Alias/@cate.Alias">@cate.DisplayName</a>
+                </li>
+            </ul>
+        </div>
+
+        <h1 class="blog-title text-4xl font-medium my-4">@Model.Title</h1>
+
+        <article class="blog-content">
+            <!-- blog content -->
+            <div>
+                @Html.Raw(Model.Content)
+            </div>
+        </article>
+    </section>
+
+
+    <section class="comments text-gray-600">
+        <div class="w-full">
+            <h3 class="sm:text-2xl text-2xl font-medium mb-2 text-gray-900">Bình luận</h3>
+            <div class="h-1 w-20 bg-lightBlue-700 rounded"></div>
+        </div>
+        <div class="comments-content">
+
+            @if (comments.Count <= 0)
+            {
+                <div class="py-4">
+                    <div class="h-full bg-gray-50 p-8 rounded">
+                        <a class="inline-flex items-center">
+                            <span class="flex-grow flex flex-col pl-4 text-gray-900 font-medium text-sm">Chưa có bình luận nào! <b>Hãy là người đầu tiên đánh giá</b></span>
+                        </a>
+                    </div>
+                </div>
+            }
+
+
+            @foreach (var item in comments)
+            {
+                var use = users.FirstOrDefault(u => u.ID == item.UserID);
+                var cla = (i++ < 2) ? "" : "hidden";
+
+                <div class="py-4 continute-comment @cla">
+                    <div class="h-full bg-gray-50 p-8 rounded">
+                        <i class="fas fa-quote-right"></i>
+                        <div class="leading-relaxed mb-6">
+                            <p>@item.Description</p>
+                        </div>
+                        <a class="inline-flex items-center">
+                            <img alt="avatar"
+                                 src="~/Assets/Admin/images/user/@use.Avatar"
+                                 class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-top" />
+                            <span class="flex-grow flex flex-col pl-4 text-gray-900 font-medium text-sm">@use.DisplayName</span>
+                            <span class="flex-grow flex flex-col pl-4 text-gray-900 font-medium text-sm">@item.CreatedTime</span>
+                        </a>
+                    </div>
+                </div>
+
+            }
+
+            <div class="py-4 @(user ==null?"hidden" :"")">
+                <div class="h-full bg-gray-100 p-8 rounded">
+                    <p class="leading-relaxed mb-6">
+                        <b>@(user!=null? user.DisplayName:"")</b>
+                    </p>
+                    <a class="inline-flex items-center" style="width: 100%;">
+                        <img alt="avatar"
+                             src="~/Assets/Admin/images/user/@(user !=null?user.Avatar:"")"
+                             class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-top" />
+                        <div class="flex-grow flex flex-col pl-4 text-gray-900 font-medium text-sm">
+                            <textarea id="des-comment"></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-create-comment" data-postid="@Model.ID">
+                            Đánh giá
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex justify-center m-auto">
+                <button class="btn btn-primary btn-continute-comment @(comments.Count<=2?"hidden":"")">Xem thêm</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        <div class="mt-20 xs:mt-25 parent-back">
+            <div class="card7 ps-relative">
+                <div class="fc-fourteenth fs-16 fw-500 d-block ps-absolute l6 tn10 bg-white px-12 xs:fs-18 child-back">
+                    <div class="bb bc-primary bbw2"> Thông tin bài viết</div>
+                </div>
+                <ul class="pt-25 pb-6 pl-15 pr-10 xs:pt-30">
+
+                    @foreach (var item in backlinks)
+                    {
+                        <li class="list-ls-none">
+                            <a href="@item.Link">
+                                <span class="backlink pl-4">- @item.DisplayName</span>
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </section>
+    <style>
+        .parent-back {
+            border: 1px solid rgb(192, 194, 197);
+            padding-left: 20px;
+            box-shadow: 2px 2px 5px gray;
+            font-family: 'Montserrat', sans-serif !important;
+        }
+
+        .child-back {
+            transform: translate(-5px, -15px);
+            display: inline-block;
+        }
+
+        .backlink {
+            color: rgb(59, 130, 246);
+        }
+    </style>
+
+    <!-- recommend local -->
+    <section class="recommend">
+        <div class="flex flex-wrap justify-between items-center w-full mb-6">
+            <div>
+                <h3 class="sm:text-2xl text-2xl font-medium mb-2 text-gray-900">Địa điểm nên ghé thăm</h3>
+
+                <div class="h-1 w-20 bg-lightBlue-700 rounded"></div>
+            </div>
+            <div>
+                <p class="text-sm font-bold uppercase cursor-pointer hover:text-lightBlue-600">
+                    <a href="/bai-viet-tong-hop/@city.Alias/@cate.Alias">Xem thêm</a> <i class="fas fa-angle-right text-base"></i>
+                </p>
+            </div>
+        </div>
+
+        <div class="recommend-container">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                @foreach (var item in relativePosts)
+                {
+                    var ci = cities.FirstOrDefault(c => c.ID == item.CityID).Alias;
+                    var ca = categories.FirstOrDefault(c => c.ID == item.CategoryID).Alias;
+
+                    <div class="recommend-slide">
+                        <div class="recommend-card">
+                            <img class="rounded-md" src="~/Assets/Admin/images/post/@item.Avatar" alt="@item.Alt" />
+                            <div class="overlay rounded-md"></div>
+                            <div class="absolute left-0 bottom-0 w-full p-4 flex items-center">
+                                <h5 class="text-white font-medium flex-1">@item.DisplayName</h5>
+                                <a href="/@ci/@ca/@item.Alias-@item.ID" class="h-8 w-8 bg-lightBlue-700 rounded-full">
+                                    <i class="fas fa-arrow-right text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+
+</main>
+
+<script>
+    const obj = {
+        init: function () {
+            this.load();
+            this.clickContinute();
+            this.clickCreateComment();
+        },
+        load: function () {
+            $('.btn-head-tab').removeClass('active');
+            $('.btn-posts').addClass('active');
+        },
+        clickContinute: function () {
+            $('.btn-continute-comment').on('click', function () {
+                $('.continute-comment').removeClass('hidden');
+            })
+        },
+        clickCreateComment: function () {
+            $('.btn-create-comment').on('click', function () {
+                var description = $('#des-comment').val();
+                var postID = $(this).data('postid');
+
+                $.ajax({
+                    url: "/AdminComment/Create",
+                    data: { description: description, postID: postID },
+                    type: "GET",
+                    success: function (response) {
+
+                        if (response == 1) {
+                            window.location.reload();
+                        } else {
+                            alert("Lỗi server");
+                        }
+                    }
+                })
+            })
+        }
+    }
+
+    obj.init();
+</script>
+
+@section script{
+    <script src="~/Assets/Client/js/index.js"></script>
+}

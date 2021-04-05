@@ -8,32 +8,35 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-    <style>
-        .parent {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
+    <title>Đăng nhập</title>
+    <link href="~/Assets/Client/css/style2.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="parent">
-        @using (Html.BeginForm("Login", "AdminAccount", FormMethod.Post))
+    <div class="min-h-screen flex justify-center items-center bg-gray-100">
+        @using (Html.BeginForm("Login", "AdminAccount", FormMethod.Post, new { @class = "w-96" }))
         {
-            <span>Tài khoản: </span>
-            @Html.TextBoxFor(Model => Model.Username);
 
-            <br /><br />
+            <h1 class="font-bold text-center text-2xl">LOGO</h1>
+            <div class="bg-white shadow-md w-full rounded-sm p-5">
 
-            <span>Mật khẩu:</span>
-            @Html.PasswordFor(Model => Model.Password);
-            <br /><br />
-            <input type="submit" value="Đăng nhập" />
-            <a href="/AdminAccount/SignUp" style="margin-left: 30px;">Đăng ký</a>
+                <label class="font-semibold text-sm">Tài khoản</label>
+                @Html.TextBoxFor(Model => Model.Username, new { @class = "border rounded-sm px-3 py-2 mt-1 w-full" })
+
+                <br /><br />
+
+                <label class="font-semibold text-sm">Mật khẩu:</label>
+                @Html.PasswordFor(Model => Model.Password, new { @class = "border rounded-sm px-3 py-2 mt-1 text-sm w-full" })
+                <br /><br />
+
+                <input type="submit" class="btn btn-primary mt-0" value="Đăng nhập" />
+
+                <span class="text-sm text-lightBlue-700 block">
+                    <a href="/dang-ky-tai-khoan" style="margin-left: 30px;">Đăng ký</a>
+                </span>
+                  
+            </div>
         }
     </div>
+
 </body>
 </html>

@@ -4,6 +4,11 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 
+    var metaItems = new string[0];
+    if (Model != null)
+    {
+        metaItems = Model.Metas != null ? Model.Metas.Split(SEO_WEB.Common.Constants.END_CHAR) : new string[0];
+    }
 }
 
 @section header{
@@ -12,6 +17,12 @@
 
 @using (Html.BeginForm("Create", "AdminCity", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+
+    <label>Tiêu đề</label>
+    <br />
+    @Html.TextBoxFor(Model => Model.Title, new { @class = "form-control" });
+    <br />
+
     <label>Tên tỉnh/thành phố</label>
     <br />
     @Html.TextBoxFor(Model => Model.DisplayName, new { @class = "form-control" });
@@ -24,7 +35,7 @@
 
     <label>Khu vực</label>
     <br />
-    @Html.DropDownListFor(Model => Model.AreaID, (IEnumerable<SelectListItem>)ViewBag.Area, new { @class="form-control"});
+    @Html.DropDownListFor(Model => Model.AreaID, (IEnumerable<SelectListItem>)ViewBag.Area, new { @class = "form-control" });
     <br />
 
 
@@ -46,6 +57,78 @@
     <br />
 
 
+    <div class="form-group">
+        <label class="col-md-2">Metas</label>
+        <div class="col-md-10">
+            <table style="width:100%">
+                <tr>
+                    <th>name</th>
+                    <th colspan="3">content</th>
+                    <th>itemprop</th>
+                    <th>property</th>
+                    <th>http-equiv</th>
+                    <th>Modified</th>
+                </tr>
+                <tbody id="content-body-meta" style="width: 100%">
+                    <tr class="trTempMeta hidden">
+                        <td>
+                            <input name="txtname" class="form-control" />
+                        </td>
+                        <td colspan="3">
+                            <textarea name="txtcontent" class="form-control"></textarea>
+                        </td>
+                        <td>
+                            <input name="txtitemprop" class="form-control" />
+                        </td>
+                        <td>
+                            <input name="txtproperty" class="form-control" />
+                        </td>
+                        <td>
+                            <input name="txtequiv" class="form-control" />
+                        </td>
+                        <td>
+                            <span class="btn btn-danger btn-remove-meta">X</span>
+                        </td>
+                    </tr>
+                    @if (metaItems != null && metaItems.Length > 0)
+                    {
+                        for (int i = 0; i < metaItems.Length; i++)
+                        {
+                            var a = metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR);
+                            if (metaItems[i] == "")
+                            {
+                                continue;
+                            }
+                            var b = a;
+                            <tr>
+                                <td>
+                                    <input name="txtname" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[0]" />
+                                </td>
+                                <td colspan="3">
+                                    <textarea name="txtcontent" class="form-control">@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[1]</textarea>
+                                </td>
+                                <td>
+                                    <input name="txtitemprop" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[2]" />
+                                </td>
+                                <td>
+                                    <input name="txtproperty" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[3]" />
+                                </td>
+                                <td>
+                                    <input name="txtequiv" class="form-control" value="@metaItems[i].Split(SEO_WEB.Common.Constants.BETWEEN_CHAR)[4]" />
+                                </td>
+                                <td>
+                                    <span class="btn btn-danger btn-remove-meta">X</span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <span class="btn btn-success btn-add-meta">+</span>
+        </div>
+    </div>
+
     <input type="submit" value="Thêm" />
 }
 
@@ -53,6 +136,7 @@
     const obj = {
         init: function () {
             this.updateImage();
+            this.addMeta();
         },
         updateImage: function () {
             $("#img-input").on("change", function () {
@@ -66,6 +150,19 @@
                     }
                     reader.readAsDataURL(ImageUpload.files[0]);
                 }
+            })
+        },
+        addMeta: function () {
+            $("body").on("click", ".btn-remove-meta", function () {
+                $(this).parents("tr").remove();
+            })
+
+            $("body").on("click", ".btn-add-meta", function () {
+                var html = $(".trTempMeta").html();
+
+                var tr = $("<tr></tr>").html(html);
+
+                $("#content-body-meta").append(tr);
             })
         }
     }

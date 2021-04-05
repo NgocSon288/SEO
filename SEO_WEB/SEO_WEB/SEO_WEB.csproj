@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\CompareStringHelper.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Controllers\AdminAccountController.cs" />
     <Compile Include="Controllers\AdminBaseController.cs" />
@@ -136,49 +137,17 @@
     <Compile Include="Controllers\AdminHomeController.cs" />
     <Compile Include="Controllers\AdminAreaController.cs" />
     <Compile Include="Controllers\AdminPostController.cs" />
+    <Compile Include="Controllers\AdminPostPageController.cs" />
     <Compile Include="Controllers\AdminUserController.cs" />
+    <Compile Include="Controllers\ClientHomeController.cs" />
+    <Compile Include="Controllers\ClientListPostController.cs" />
+    <Compile Include="Controllers\ClientPostController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202103291527581_initialize_db.cs" />
-    <Compile Include="Migrations\202103291527581_initialize_db.designer.cs">
-      <DependentUpon>202103291527581_initialize_db.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103300512589_update_isDelete_prop.cs" />
-    <Compile Include="Migrations\202103300512589_update_isDelete_prop.designer.cs">
-      <DependentUpon>202103300512589_update_isDelete_prop.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103301305199_update_model.cs" />
-    <Compile Include="Migrations\202103301305199_update_model.designer.cs">
-      <DependentUpon>202103301305199_update_model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103301316174_update_foreign_key_entity.cs" />
-    <Compile Include="Migrations\202103301316174_update_foreign_key_entity.designer.cs">
-      <DependentUpon>202103301316174_update_foreign_key_entity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103310305174_update_attribute_entity.cs" />
-    <Compile Include="Migrations\202103310305174_update_attribute_entity.designer.cs">
-      <DependentUpon>202103310305174_update_attribute_entity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103310419357_update_meta_entity.cs" />
-    <Compile Include="Migrations\202103310419357_update_meta_entity.designer.cs">
-      <DependentUpon>202103310419357_update_meta_entity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103310421444_delete-meta-property.cs" />
-    <Compile Include="Migrations\202103310421444_delete-meta-property.designer.cs">
-      <DependentUpon>202103310421444_delete-meta-property.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103310649423_update_meta.cs" />
-    <Compile Include="Migrations\202103310649423_update_meta.designer.cs">
-      <DependentUpon>202103310649423_update_meta.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103310656546_update_meta_v1.1.cs" />
-    <Compile Include="Migrations\202103310656546_update_meta_v1.1.designer.cs">
-      <DependentUpon>202103310656546_update_meta_v1.1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202103311523308_updat_user_prop.cs" />
-    <Compile Include="Migrations\202103311523308_updat_user_prop.designer.cs">
-      <DependentUpon>202103311523308_updat_user_prop.cs</DependentUpon>
+    <Compile Include="Migrations\202104050506418_initialize_database.cs" />
+    <Compile Include="Migrations\202104050506418_initialize_database.designer.cs">
+      <DependentUpon>202104050506418_initialize_database.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Area.cs" />
@@ -187,16 +156,18 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\DBContext.cs" />
+    <Compile Include="Models\Home.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostPage.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Admin\css\bootstrap.css" />
     <Content Include="Assets\Admin\css\style.css" />
-    <Content Include="Assets\Admin\images\city\film15218.jpg" />
-    <Content Include="Assets\Admin\images\city\film22690.jpg" />
-    <Content Include="Assets\Admin\images\city\film39034.jpg" />
+    <Content Include="Assets\Client\css\style2.css" />
+    <Content Include="Assets\Client\js\diem-den.js" />
+    <Content Include="Assets\Client\js\index.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -213,6 +184,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\Admin\images\category\" />
+    <Folder Include="Assets\Admin\images\city\" />
+    <Folder Include="Assets\Admin\images\home\" />
     <Folder Include="Assets\Admin\images\post\" />
     <Folder Include="Assets\Admin\images\user\" />
     <Folder Include="Assets\Admin\js\" />
@@ -227,7 +200,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
-    <Content Include="Views\AdminHome\Index.cshtml" />
+    <Content Include="Views\AdminHome\IndexMo.cshtml" />
     <Content Include="Views\Shared\_AdminMenuLeft.cshtml" />
     <Content Include="Views\Shared\_AdminHeader.cshtml" />
     <Content Include="Views\AdminAccount\Login.cshtml" />
@@ -248,37 +221,25 @@
     <Content Include="Views\AdminAccount\Update.cshtml" />
     <Content Include="Views\AdminUser\Index.cshtml" />
     <Content Include="Views\AdminUser\UserListPartial.cshtml" />
+    <Content Include="Views\Shared\_ClientLayout.cshtml" />
+    <Content Include="Views\ClientHome\Index.cshtml" />
+    <Content Include="Views\AdminComment\CommentListByPostIDPartial.cshtml" />
+    <Content Include="Views\AdminComment\ListCommentByPostID.cshtml" />
+    <Content Include="Views\AdminHome\Index.cshtml" />
+    <Content Include="Views\ClientHome\BackgroundPartial.cshtml" />
+    <Content Include="Views\ClientHome\GetCitiesByAreaIDPartial.cshtml" />
+    <Content Include="Views\ClientPost\Index.cshtml" />
+    <Content Include="Views\ClientListPost\Index.cshtml" />
+    <Content Include="Views\ClientListPost\GetListPostByCategoryPartial.cshtml" />
+    <Content Include="Views\ClientListPost\PostsSearch.cshtml" />
+    <Content Include="Views\Shared\_ClientMetasPartial.cshtml" />
+    <Content Include="Views\AdminPostPage\Index.cshtml" />
+    <Content Include="Views\ClientHome\Footer.cshtml" />
+    <Content Include="Views\ClientHome\Logo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202103291527581_initialize_db.resx">
-      <DependentUpon>202103291527581_initialize_db.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103300512589_update_isDelete_prop.resx">
-      <DependentUpon>202103300512589_update_isDelete_prop.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103301305199_update_model.resx">
-      <DependentUpon>202103301305199_update_model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103301316174_update_foreign_key_entity.resx">
-      <DependentUpon>202103301316174_update_foreign_key_entity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103310305174_update_attribute_entity.resx">
-      <DependentUpon>202103310305174_update_attribute_entity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103310419357_update_meta_entity.resx">
-      <DependentUpon>202103310419357_update_meta_entity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103310421444_delete-meta-property.resx">
-      <DependentUpon>202103310421444_delete-meta-property.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103310649423_update_meta.resx">
-      <DependentUpon>202103310649423_update_meta.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103310656546_update_meta_v1.1.resx">
-      <DependentUpon>202103310656546_update_meta_v1.1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103311523308_updat_user_prop.resx">
-      <DependentUpon>202103311523308_updat_user_prop.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104050506418_initialize_database.resx">
+      <DependentUpon>202104050506418_initialize_database.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

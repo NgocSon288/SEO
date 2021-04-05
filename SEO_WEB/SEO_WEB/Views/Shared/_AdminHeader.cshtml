@@ -3,7 +3,7 @@
 }
 
 <style>
-    .img-avatar{
+    .img-avatar {
         border-radius: 50%;
     }
 </style>
@@ -16,9 +16,10 @@
     <br />
     <a href="/AdminAccount/Logout" style="color: red;">Đăng xuất</a>
 
-    @if (user.Username.ToUpper() != "ADMIN")
+    @if (user.Username != "admin")
     {
         <a href="/AdminAccount/Update" style="color: red; margin-left: 40px;">Cập nhật</a>
     }
+
     <div class="clearfix"> </div>
 </div>

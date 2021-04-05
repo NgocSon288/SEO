@@ -1,0 +1,88 @@
+﻿@{
+    var user = Session[SEO_WEB.Common.Constants.SESSION] as SEO_WEB.Models.User;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet"
+          href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
+          integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
+          crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="~/Assets/Client/css/style2.css" />
+
+    @RenderSection("meta", false)
+
+</head>
+<body>
+    <header class="header">
+        <nav id="navbar" class="nav relative">
+
+            @Html.Action("Logo", "ClientHome")
+
+            <div id="nav__menu" class="flex justify-between items-center w-full h-full">
+                <ul id="hoz-menu" class="items-center justify-between flex">
+                    <a class="nav__menu-item active btn-head-tab btn-home" href="/">
+                        <li>Trang chủ</li>
+                    </a>
+                    <a class="nav__menu-item btn-head-tab btn-posts" href="/bai-viet-tong-hop">
+                        <li>Bài viết tổng hợp</li>
+                    </a>
+                </ul>
+                <div class="nav__menu-action">
+                    @if (user == null)
+                    {
+                        <button class="btn btn-outline">
+                            <a href="/dang-nhap">Đăng nhập</a>
+                        </button>
+                        <button class="btn btn-primary">
+                            <a href="/dang-ky-tai-khoan">Đăng kí</a>
+                        </button>
+                    }
+                    else
+                    {
+                        <button>
+                            <a href="/dang-nhap"><b class="mr-4">Xin chào: @user.DisplayName</b></a>
+                        </button>
+                        <button class="btn btn-primary">
+                            <a href="/AdminAccount/Logout">Đăng xuất</a>
+                        </button>
+                    }
+                </div>
+                <!-- close btn -->
+                <button id="close-menu" class="absolute top-6 left-8 lg:hidden">
+                    <i class="fas fa-arrow-right text-xl"></i>
+                </button>
+            </div>
+
+            <div id="hamburger" class="space-y-1 lg:hidden cursor-pointer">
+                <div class="h-1 w-8 bg-lightBlue-700"></div>
+                <div class="h-1 w-8 bg-lightBlue-700"></div>
+                <div class="h-1 w-8 bg-lightBlue-700"></div>
+            </div>
+        </nav>
+        <!-- end navbar -->
+        @RenderSection("slide", false)
+
+    </header>
+    <!-- end header -->
+
+    @RenderBody()
+
+    @Html.Action("Footer", "ClientHome")
+
+    <button id="scrollToTop" class="w-12 h-12 rounded-full bg-black bg-opacity-20 fixed bottom-5 right-5 z-10">
+        <i class="fal fa-angle-up font-medium text-white"></i>
+    </button>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @RenderSection("script", false)
+
+</body>
+</html>

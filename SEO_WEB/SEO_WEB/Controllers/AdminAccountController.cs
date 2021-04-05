@@ -31,11 +31,12 @@ namespace SEO_WEB.Controllers
             {
                 Session[Constants.SESSION] = user;
 
-                return RedirectToAction("Index", "AdminHome");
+                return RedirectToAction("Index", "ClientHome");
             }
-
             return View(model);
         }
+
+
 
         public ActionResult Logout()
         {
@@ -82,7 +83,7 @@ namespace SEO_WEB.Controllers
                         model.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/Assets/Admin/images/user/"), model.Avatar));
 
                         model.Alt = "Hình ảnh của " + model.DisplayName;
-                        model.IsMember = false;
+                        model.IsMember = true;
 
                         // Lưu xuống DB
                         db.Users.Add(model);

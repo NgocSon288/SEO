@@ -1,0 +1,31 @@
+﻿@model List<SEO_WEB.Models.Post>
+
+@{
+
+    var cities = ViewBag.cities as List<SEO_WEB.Models.City>;
+    var categories = ViewBag.categories as List<SEO_WEB.Models.Category>;
+}
+
+@foreach (var item in Model)
+{
+    var ci = cities.FirstOrDefault(c => c.ID == item.CityID).Alias;
+    var ca = categories.FirstOrDefault(c => c.ID == item.CategoryID).Alias;
+
+    <div class="post-card">
+        <div class="rounded-sm h-full overflow-hidden">
+            <!-- 780x1,170 -->
+            <img alt="@item.Alt" class="post-image" src="~/Assets/Admin/images/post/@item.Avatar" />
+        </div>
+        <div class="post-main">
+            <h2 class="text-xl leading-relaxed font-medium mt-5">@item.DisplayName</h2>
+            <p class="text-base leading-relaxed mt-2">
+                @item.Description
+            </p>
+            <a href="/@ci/@ca/@item.Alias-@item.ID" class="flex items-center mt-3">
+                <span class="mr-2">Xem thêm</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+}

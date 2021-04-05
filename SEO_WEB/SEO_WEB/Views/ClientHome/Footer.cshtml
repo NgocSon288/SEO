@@ -1,0 +1,11 @@
+﻿@model SEO_WEB.Models.Home
+@{
+    var src = "/Assets/Admin/images/home/" + Model.Logo;
+    var alt = Model.AltLogo;
+
+    var img = $"<img class=\"max-h-full\" src=\"{src}\" alt=\"${alt}\" />";
+
+    Model.Footer = Model.Footer.Replace("$my-logo", img);
+}
+
+@Html.Raw(Model.Footer)

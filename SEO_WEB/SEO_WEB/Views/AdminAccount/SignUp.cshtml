@@ -8,57 +8,52 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-    <style>
-        .parent {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .text-danger{
-            color: red;
-        }
-    </style>
+    <title>Đăng ký</title>
+    <link href="~/Assets/Client/css/style2.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="parent">
+    <div class="min-h-screen flex justify-center items-center bg-gray-100">
         @using (Html.BeginForm("SignUp", "AdminAccount", FormMethod.Post, new { @class = "form", enctype = "multipart/form-data", onsubmit = "return onSubmit()" }))
         {
             @Html.AntiForgeryToken()
-            <span>Tên: </span>
-            @Html.TextBoxFor(Model => Model.DisplayName)<br /><br />
-            @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })<br /><br />
+            <h1 class="font-bold text-center text-2xl">LOGO</h1>
+            <div class="bg-white shadow-md w-full rounded-sm p-5">
 
-            <span>Email: </span>
-            @Html.TextBoxFor(Model => Model.Email)<br /><br />
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })<br /><br />
+                <label class="font-semibold text-sm">Tên</label>
+                @Html.TextBoxFor(Model => Model.DisplayName, new { @class = "border rounded-sm px-3 py-2 mt-1 w-full" })
+                @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })<br /><br />
 
-            <span>Tài khoản: </span>
-            @Html.TextBoxFor(Model => Model.Username)<br /><br />
-            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })<br /><br />
+                <label class="font-semibold text-sm">Email</label>
+                @Html.TextBoxFor(Model => Model.Email, new { @class = "border rounded-sm px-3 py-2 mt-1 w-full" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })<br /><br />
+
+                <label class="font-semibold text-sm">Tài khoản</label>
+                @Html.TextBoxFor(Model => Model.Username, new { @class = "border rounded-sm px-3 py-2 mt-1 w-full" })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })<br /><br />
+
+                <label class="font-semibold text-sm">Mật khẩu</label>
+                @Html.PasswordFor(Model => Model.Password, new { @class = "border rounded-sm px-3 py-2 mt-1 w-full" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })<br /><br />
+
+                <label class="font-semibold text-sm">Nhập lại mật khẩu</label>
+                @Html.Password("txtConfirmPassword", "", new { @class = "confirm" }) <br /><br />
 
 
-            <span>Mật khẩu:</span>
-            @Html.PasswordFor(Model => Model.Password, new { @class = "password" })<br /><br />
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })<br /><br />
+                <div>
+                    <input type="file" name="ImageUpload" id="img-input" />
 
-            <span>Nhập lại mật khẩu:</span>
-            @Html.Password("txtConfirmPassword", "", new { @class = "confirm" }) <br /><br />
+                    <img src="~/Assets/Admin/images/user/user-main.jpg" width="200" height="200" id="preImage" />
+                </div>
+
+                @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })<br />
 
 
-            <div>
-                <input type="file" name="ImageUpload" id="img-input" />
+                <span class="text-sm text-lightBlue-700 block">
+                    <a href="/dang-nhap">Đăng nhập</a>
+                </span>
 
-                <img src="" width="200" height="200" id="preImage" />
+                <button type="submit" class="btn btn-primary mt-3">Đăng kí</button>
             </div>
-             
-            @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })<br /><br />
-
-            <br />
-
-            <input type="submit" value="Đăng ký" />
         }
     </div>
 </body>
@@ -93,7 +88,7 @@
     function onSubmit() {
         let pass = document.querySelector('.password');
         let confirm = document.querySelector('.confirm');
-         
+
         if (pass.value != confirm.value) {
             alert("Xác nhận mật khẩu không hợp lệ");
 

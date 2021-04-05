@@ -32,6 +32,9 @@ namespace SEO_WEB.Models
         [Required(ErrorMessage = "Title không được bỏ trống")]
         public string Title { get; set; }
 
+        [Required(ErrorMessage = "Title h1 không được bỏ trống")]
+        public string TitleH1 { get; set; }
+
         [Required(ErrorMessage = "Alias không được bỏ trống")]
         public string Alias { get; set; }
 
@@ -45,6 +48,9 @@ namespace SEO_WEB.Models
 
         public bool IsDeleted { get; set; }
 
+        public bool IsPriority { get; set; }    //
+
+        public int View { get; set; }   //
 
         [ForeignKey("City")]
         public int CityID { get; set; }
