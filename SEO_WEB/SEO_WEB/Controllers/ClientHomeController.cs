@@ -14,6 +14,7 @@ namespace SEO_WEB.Controllers
         // GET: ClientHome
         public ActionResult Index()
         {
+            ViewData["tab"] = "1";
             var comments = db.Posts.OrderByDescending(p => p.View);
 
             ViewBag.cities = db.Cities.ToList();

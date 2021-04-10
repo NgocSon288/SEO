@@ -14,6 +14,7 @@ namespace SEO_WEB.Controllers
         // GET: ClientPost
         public ActionResult Index(string city, string category, string alias, int id)
         {
+            ViewData["tab"] = "2";
             var post = db.Posts.FirstOrDefault(p => p.ID == id);
             var relativePosts = db.Posts.Where(p => p.CityID == post.CityID).ToList();
 

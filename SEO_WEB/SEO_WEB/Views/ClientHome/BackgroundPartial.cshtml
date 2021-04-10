@@ -6,7 +6,9 @@
 
 <section id="hero">
     <div class="background-container">
-        <img src="~/Assets/Admin/images/home/@Model.Image" style="width: 100%" />
+        <picture>
+            <img src="~/Assets/Admin/images/home/@Model.Image" class="hero-background" />
+        </picture>
     </div>
     <div class="overlay"></div>
     <div id="top">
@@ -63,85 +65,87 @@
     <div class="relative h-20"></div>
 </section>
 
-<script>
-    const objSearch = {
-        init: function () {
-            this.enterSearch();
-            this.clickSearch();
-            this.clickKeyword();
-        },
-        enterSearch: function () {
-            $('.txt-search').on('keyup', function () {
-                if (event.keyCode == 13) {
-                    $(".btn-search").click();
-                }
-            })
-        },
-        clickSearch: function () {
-            $('.btn-search').on('click', function () {
-                let text = $('.txt-search').val().trim();
-                text = objSearch.convertString(text).toLowerCase();
+@section script{
+    <script>
+        const objSearch = {
+            init: function () {
+                this.enterSearch();
+                this.clickSearch();
+                this.clickKeyword();
+            },
+            enterSearch: function () {
+                $('.txt-search').on('keyup', function () {
+                    if (event.keyCode == 13) {
+                        $(".btn-search").click();
+                    }
+                })
+            },
+            clickSearch: function () {
+                $('.btn-search').on('click', function () {
+                    let text = $('.txt-search').val().trim();
+                    text = objSearch.convertString(text).toLowerCase();
 
-                while (text.indexOf('  ') >= 0) {
-                    text = text.replace('  ', ' ');
+                    while (text.indexOf('  ') >= 0) {
+                        text = text.replace('  ', ' ');
+                    }
+
+                    while (text.indexOf(' ') >= 0) {
+                        text = text.replace(' ', '-');
+                    }
+
+                    if (text) {
+                        window.location = `/bai-viet/${text}`;
+                    }
+                })
+            },
+            clickKeyword: function () {
+                $('.btn-keyword').on('click', function () {
+                    let text = $(this).data('keyword');
+
+                    text = objSearch.convertString(text).toLowerCase();
+
+                    while (text.indexOf('  ') >= 0) {
+                        text = text.replace('  ', ' ');
+                    }
+
+                    while (text.indexOf(' ') >= 0) {
+                        text = text.replace(' ', '-');
+                    }
+
+                    if (text) {
+                        window.location = `/bai-viet/${text}`;
+                    }
+                })
+            },
+            convertString: function (str) {
+                const VietnameseChar = [
+                    "aAeEoOuUiIdDyY",
+                    "áàạảãâấầậẩẫăắằặẳẵ",
+                    "ÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴ",
+                    "éèẹẻẽêếềệểễ",
+                    "ÉÈẸẺẼÊẾỀỆỂỄ",
+                    "óòọỏõôốồộổỗơớờợởỡ",
+                    "ÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠ",
+                    "úùụủũưứừựửữ",
+                    "ÚÙỤỦŨƯỨỪỰỬỮ",
+                    "íìịỉĩ",
+                    "ÍÌỊỈĨ",
+                    "đ",
+                    "Đ",
+                    "ýỳỵỷỹ",
+                    "ÝỲỴỶỸ"
+                ];
+
+                for (let i = 1; i < VietnameseChar.length; i++) {
+                    for (let j = 0; j < VietnameseChar[i].length; j++) {
+                        str = str.replace(VietnameseChar[i][j], VietnameseChar[0][i - 1]);
+                    }
                 }
 
-                while (text.indexOf(' ') >= 0) {
-                    text = text.replace(' ', '-');
-                }
-
-                if (text) {
-                    window.location = `/bai-viet/${text}`;
-                }
-            })
-        },
-        clickKeyword: function () {
-            $('.btn-keyword').on('click', function () {
-                let text = $(this).data('keyword'); 
-
-                text = objSearch.convertString(text).toLowerCase();
-
-                while (text.indexOf('  ') >= 0) {
-                    text = text.replace('  ', ' ');
-                }
-
-                while (text.indexOf(' ') >= 0) {
-                    text = text.replace(' ', '-');
-                }
-
-                if (text) {
-                    window.location = `/bai-viet/${text}`;
-                }
-            })
-        },
-        convertString: function (str) {
-            const VietnameseChar = [
-                "aAeEoOuUiIdDyY",
-                "áàạảãâấầậẩẫăắằặẳẵ",
-                "ÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴ",
-                "éèẹẻẽêếềệểễ",
-                "ÉÈẸẺẼÊẾỀỆỂỄ",
-                "óòọỏõôốồộổỗơớờợởỡ",
-                "ÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠ",
-                "úùụủũưứừựửữ",
-                "ÚÙỤỦŨƯỨỪỰỬỮ",
-                "íìịỉĩ",
-                "ÍÌỊỈĨ",
-                "đ",
-                "Đ",
-                "ýỳỵỷỹ",
-                "ÝỲỴỶỸ"
-            ];
-
-            for (let i = 1; i < VietnameseChar.length; i++) {
-                for (let j = 0; j < VietnameseChar[i].length; j++) {
-                    str = str.replace(VietnameseChar[i][j], VietnameseChar[0][i - 1]);
-                }
+                return str;
             }
-
-            return str;
         }
-    }
 
-    objSearch.init();
-</script>
+        objSearch.init();
+    </script>
+} 

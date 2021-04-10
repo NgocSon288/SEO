@@ -17,7 +17,6 @@
     var i = 0;
 }
 
-
 @section meta{
     @Html.Partial("~/Views/Shared/_ClientMetasPartial.cshtml", Model.Metas)
 }
@@ -49,7 +48,6 @@
         </article>
     </section>
 
-
     <section class="comments text-gray-600">
         <div class="w-full">
             <h3 class="sm:text-2xl text-2xl font-medium mb-2 text-gray-900">Bình luận</h3>
@@ -67,7 +65,6 @@
                     </div>
                 </div>
             }
-
 
             @foreach (var item in comments)
             {
@@ -114,7 +111,6 @@
             <div class="flex justify-center m-auto">
                 <button class="btn btn-primary btn-continute-comment @(comments.Count<=2?"hidden":"")">Xem thêm</button>
             </div>
-
         </div>
     </section>
 
@@ -134,7 +130,6 @@
                             </a>
                         </li>
                     }
-
                 </ul>
             </div>
         </div>
@@ -165,42 +160,36 @@
 
                 <div class="h-1 w-20 bg-lightBlue-700 rounded"></div>
             </div>
-            <div>
+            @*<div>
                 <p class="text-sm font-bold uppercase cursor-pointer hover:text-lightBlue-600">
                     <a href="/bai-viet-tong-hop/@city.Alias/@cate.Alias">Xem thêm</a> <i class="fas fa-angle-right text-base"></i>
                 </p>
-            </div>
+            </div>*@
         </div>
 
-        <div class="recommend-container">
-            <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-                <!-- Slides -->
-                @foreach (var item in relativePosts)
-                {
-                    var ci = cities.FirstOrDefault(c => c.ID == item.CityID).Alias;
-                    var ca = categories.FirstOrDefault(c => c.ID == item.CategoryID).Alias;
-
-                    <div class="recommend-slide">
-                        <div class="recommend-card">
-                            <img class="rounded-md" src="~/Assets/Admin/images/post/@item.Avatar" alt="@item.Alt" />
-                            <div class="overlay rounded-md"></div>
-                            <div class="absolute left-0 bottom-0 w-full p-4 flex items-center">
-                                <h5 class="text-white font-medium flex-1">@item.DisplayName</h5>
-                                <a href="/@ci/@ca/@item.Alias-@item.ID" class="h-8 w-8 bg-lightBlue-700 rounded-full">
-                                    <i class="fas fa-arrow-right text-white"></i>
-                                </a>
+        <div class="intes-container">
+            @foreach (var item in relativePosts)
+            {
+                var ci = cities.FirstOrDefault(c => c.ID == item.CityID).Alias;
+                var ca = categories.FirstOrDefault(c => c.ID == item.CategoryID).Alias;
+                <div class="intes-card cursor-pointer">
+                    <a href="/@ci/@ca/@item.Alias-@item.ID">
+                        <div class="flex relative h-full">
+                            <!-- 600x360 -->
+                            <img alt="@item.Alt" class="intes-card__image" src="~/Assets/Admin/images/post/@item.Avatar">
+                            <div class="intes-card__main">
+                                <h5 class="intes-card__title">@item.DisplayName</h5>
+                                <p class="intes-card__content">
+                                    @item.Description
+                                </p>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    </a>
+                </div>
 
-            <div class="swiper-pagination"></div>
+            }
         </div>
     </section>
-
-
 </main>
 
 <script>

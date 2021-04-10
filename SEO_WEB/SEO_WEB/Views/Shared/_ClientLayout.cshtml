@@ -27,12 +27,27 @@
 
             <div id="nav__menu" class="flex justify-between items-center w-full h-full">
                 <ul id="hoz-menu" class="items-center justify-between flex">
-                    <a class="nav__menu-item active btn-head-tab btn-home" href="/">
-                        <li>Trang chủ</li>
-                    </a>
-                    <a class="nav__menu-item btn-head-tab btn-posts" href="/bai-viet-tong-hop">
-                        <li>Bài viết tổng hợp</li>
-                    </a>
+                    @if (ViewData["tab"] == "1")
+                    {
+                        <a class="nav__menu-item btn-head-tab btn-home active" href="/">
+                            <li>Trang chủ</li>
+                        </a>
+                        <a class="nav__menu-item btn-head-tab btn-posts" href="/bai-viet-tong-hop">
+                            <li>Bài viết tổng hợp</li>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="nav__menu-item btn-head-tab btn-home" href="/">
+                            <li>Trang chủ</li>
+                        </a>
+                        <a class="nav__menu-item btn-head-tab btn-posts active" href="/bai-viet-tong-hop">
+                            <li>Bài viết tổng hợp</li>
+                        </a>
+
+                    }
+
+                  
                 </ul>
                 <div class="nav__menu-action">
                     @if (user == null)
@@ -80,8 +95,8 @@
         <i class="fal fa-angle-up font-medium text-white"></i>
     </button>
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     @RenderSection("script", false)
 
 </body>
